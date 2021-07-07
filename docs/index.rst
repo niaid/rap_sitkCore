@@ -11,10 +11,12 @@ Welcome to my_pkg's documentation!
    :caption: Contents:
 
 
+API Reference
+-------------
 
-Indices and tables
-==================
+Documentation for directly using the Python functions.
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. toctree::
+   :maxdepth: 2
+
+   api
