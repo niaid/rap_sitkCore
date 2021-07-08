@@ -11,12 +11,5 @@ Welcome to my_pkg's documentation!
    :caption: Contents:
 
 
-API Reference
--------------
-
-Documentation for directly using the Python functions.
-
-.. toctree::
-   :maxdepth: 2
-
+   development
    api
