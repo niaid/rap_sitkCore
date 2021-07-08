@@ -11,7 +11,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-from setuptools import setup, find_packages
+from setuptools import setup
 
 with open("README.rst", "r") as fp:
     long_description = fp.read()
@@ -27,7 +27,8 @@ setup(
     description="A template for python packages with best practices.",
     long_description=long_description,
     long_description_content_type="text/x-rst",
-    packages=find_packages(exclude=("test",)),
+    packages=["my_pkg"],
+    package_data={"my_pkg": ["data/*"]},
     url="https://www.niaid.nih.gov/research/bioinformatics-computational-biosciences-branch",
     license="Apache 2.0",
     classifiers=[
