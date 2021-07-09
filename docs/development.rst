@@ -129,3 +129,20 @@ Sphinx Documentation
 `Sphinx <https://www.sphinx-doc.org/>`_ documentation as automatically rendered and pushed the the gh-pages branch. The
 API is documented in Sphinx from the the Python docstring automatically for the public module methods and select private
 methods.
+
+
+********
+Releases
+********
+
+The release of packages are automatic and triggered by pushing a git tag to the repository. The tags must be prefixed
+with `v` followed by the version to trigger the release actions. Examples of tags are: "v0.1", "v1.0a1", "v1.0rc2",
+"v1.0.1". A git tag can be create and push as follows:
+
+.. code:: bash
+
+    git tag "v0.1" -m "my_pkg release 0.1"
+    git push origin "v0.1"
+
+Versioning
+==========
