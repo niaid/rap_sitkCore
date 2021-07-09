@@ -146,3 +146,10 @@ with `v` followed by the version to trigger the release actions. Examples of tag
 
 Versioning
 ==========
+
+`Semantic Versions <https://semver.org>`_ practices should be used as guidelines for when major, minor, and patch
+version number should change. The `PEP 440 -- Version Identification and Dependency Specification <https://www.python.org/dev/peps/pep-0440/>`_
+should also be followed when cheating a tag, but without a "post" or "dev" suffix. The version of that package is
+automatically determined by with the use of `setuptools_scm <https://github.com/pypa/setuptools_scm/>`_ introspection
+of the git repositories tags. Only the git tags are used to determine the version, there is no need to hard code the
+version anywhere in the code!
