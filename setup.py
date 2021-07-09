@@ -21,7 +21,6 @@ with open("requirements.txt", "r") as fp:
 
 setup(
     name="my_pkg",
-    use_scm_version={"local_scheme": "dirty-tag"},
     author="Bradley Lowekamp",
     author_email="bioinformatics@niaid.nih.gov",
     description="A template for python packages with best practices.",
