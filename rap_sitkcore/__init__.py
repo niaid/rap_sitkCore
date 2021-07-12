@@ -18,4 +18,4 @@ except PackageNotFoundError:
 
 __author__ = ["Bradley Lowekamp"]
 
-__all__ = ["do_something", "answer"]
+__all__ = ["answer"]
