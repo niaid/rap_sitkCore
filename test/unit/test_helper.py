@@ -1,4 +1,4 @@
-from my_pkg._util import helper
+from rap_sitkcore._util import helper
 
 
 def test_util_helper():

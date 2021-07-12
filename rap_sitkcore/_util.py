@@ -1,4 +1,4 @@
-# The "_util" module is private to the "my_pkg" package, by convention since it begins with an '_'.
+# The "_util" module is private to the "rap_sitkcore" package, by convention since it begins with an '_'.
 
 
 def helper(n: int) -> int:

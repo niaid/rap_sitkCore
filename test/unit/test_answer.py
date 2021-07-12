@@ -1,4 +1,4 @@
-from my_pkg import answer
+from rap_sitkcore import answer
 import time
 
 

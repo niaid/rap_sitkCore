@@ -20,14 +20,14 @@ with open("requirements.txt", "r") as fp:
     requirements = list(filter(bool, (line.strip() for line in fp)))
 
 setup(
-    name="my_pkg",
+    name="rap_sitkcore",
     author="Bradley Lowekamp",
     author_email="bioinformatics@niaid.nih.gov",
     description="A template for python packages with best practices.",
     long_description=long_description,
     long_description_content_type="text/x-rst",
-    packages=["my_pkg"],
-    package_data={"my_pkg": ["data/*"]},
+    packages=["rap_sitkcore"],
+    package_data={"rap_sitkcore": ["data/*"]},
     url="https://www.niaid.nih.gov/research/bioinformatics-computational-biosciences-branch",
     license="Apache 2.0",
     classifiers=[

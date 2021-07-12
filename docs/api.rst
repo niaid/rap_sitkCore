@@ -1,8 +1,8 @@
 API
 ===
 
-.. automodule:: my_pkg
+.. automodule:: rap_sitkcore
     :members:
 
-.. automodule:: my_pkg._util
+.. automodule:: rap_sitkcore._util
     :members:

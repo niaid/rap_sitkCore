@@ -3,5 +3,5 @@
 *.dcm filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text
-my_pkg/data/* filter=lfs diff=lfs merge=lfs -text
+rap_sitkcore/data/* filter=lfs diff=lfs merge=lfs -text
 test/data/* filter=lfs diff=lfs merge=lfs -text

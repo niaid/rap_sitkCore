@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'my_pkg'
+project = 'rap_sitkcore'
 copyright = '2021, Bradley Lowekamp'
 author = 'Bradley Lowekamp'
 
