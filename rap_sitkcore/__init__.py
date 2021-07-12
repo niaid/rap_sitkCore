@@ -1,5 +1,3 @@
-from .answer import answer
-
 try:
     from importlib.metadata import version, PackageNotFoundError
 
@@ -18,4 +16,4 @@ except PackageNotFoundError:
 
 __author__ = ["Bradley Lowekamp"]
 
-__all__ = ["answer"]
+__all__ = []
