@@ -48,6 +48,7 @@
 <span class="sig-prename descclassname"><span class="pre">rap_sitkcore.</span></span><span class="sig-name descname"><span class="pre">read_dcm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.SimpleITK.Image</span></span></span><a class="headerlink" href="#rap_sitkcore.read_dcm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read an x-ray DICOM file with GDCMImageIO, reducing it to 2D from 3D as needed.
 If the file cannot be read by the GDCM library, then pydicom is tried.
+Color images are converted to grayscale.
 :param filename: A DICOM filename
 :return: a 2D SimpleITK Image</p>
 </dd></dl>
@@ -62,6 +63,17 @@ If the file cannot be read by the GDCM library, then pydicom is tried.
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>returns the n-th fibonacci number</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rap_sitkcore._util.srgb2gray">
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore._util.</span></span><span class="sig-name descname"><span class="pre">srgb2gray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SimpleITK.SimpleITK.Image</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.SimpleITK.Image</span></span></span><a class="headerlink" href="#rap_sitkcore._util.srgb2gray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an sRGB [0, 255] image to gray scale and rescale results to [0,255]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> – a SimpleITK Image with 3 components</p>
 </dd>
 </dl>
 </dd></dl>
@@ -117,7 +129,7 @@ If the file cannot be read by the GDCM library, then pydicom is tried.
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Bradley Lowekamp.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.1.
     </div>
   </body>
 </html>
