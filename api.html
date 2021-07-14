@@ -43,6 +43,15 @@
             
   <section id="module-rap_sitkcore">
 <span id="api"></span><h1>API<a class="headerlink" href="#module-rap_sitkcore" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="rap_sitkcore.read_dcm">
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore.</span></span><span class="sig-name descname"><span class="pre">read_dcm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.SimpleITK.Image</span></span></span><a class="headerlink" href="#rap_sitkcore.read_dcm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an x-ray DICOM file with GDCMImageIO, reducing it to 2D from 3D as needed.
+If the file cannot be read by the GDCM library, then pydicom is tried.
+:param filename: A DICOM filename
+:return: a 2D SimpleITK Image</p>
+</dd></dl>
+
 <span class="target" id="module-rap_sitkcore._util"></span><dl class="py function">
 <dt class="sig sig-object py" id="rap_sitkcore._util.helper">
 <span class="sig-prename descclassname"><span class="pre">rap_sitkcore._util.</span></span><span class="sig-name descname"><span class="pre">helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#rap_sitkcore._util.helper" title="Permalink to this definition">¶</a></dt>
