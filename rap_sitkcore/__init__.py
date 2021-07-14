@@ -1,3 +1,5 @@
+from .read_dcm import read_dcm
+
 try:
     from importlib.metadata import version, PackageNotFoundError
 
@@ -16,4 +18,4 @@ except PackageNotFoundError:
 
 __author__ = ["Bradley Lowekamp"]
 
-__all__ = []
+__all__ = ["read_dcm"]
