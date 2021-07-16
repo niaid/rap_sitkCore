@@ -68,7 +68,7 @@ def read_dcm(filename: Path) -> sitk.Image:
     """
 
     if not filename.is_file():
-        raise IOError(f'The file: "{filename}" does not exist.')
+        raise FileNotFoundError(f'The file: "{filename}" does not exist.')
 
     try:
         img = _read_dcm_sitk(filename)

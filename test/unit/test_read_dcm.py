@@ -33,6 +33,13 @@ def test_read_dcm1(test_file):
     assert img.GetNumberOfComponentsPerPixel() == 1
 
 
+def test_read_dcm2():
+    """Test with filename does not exit"""
+
+    with pytest.raises(FileNotFoundError):
+        rap_sitkcore.read_dcm(Path("ThisFileDoesNotExist.dcm"))
+
+
 @pytest.mark.parametrize(
     ("test_file", "number_of_components"),
     [
