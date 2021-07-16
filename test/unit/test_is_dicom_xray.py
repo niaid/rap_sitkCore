@@ -2,6 +2,8 @@ import rap_sitkcore.is_dicom_xray
 import pytest
 from pathlib import Path
 from .. import data_paths
+import os
+import tempfile
 
 
 @pytest.mark.parametrize(
@@ -27,3 +29,32 @@ def test_is_dicom_xray1(test_file, is_xray):
     filename = data_paths[test_file]
 
     assert rap_sitkcore.is_dicom_xray(Path(filename)) == is_xray
+
+
+def test_is_dicom_xray2():
+    """Test with filename does not exit"""
+
+    with pytest.raises(FileNotFoundError):
+        rap_sitkcore.is_dicom_xray(Path("ThisFileDoesNotExist.dcm"))
+
+
+def test_is_dicom_xray3():
+    extensions = [
+        ".jpg",
+        ".JPG",
+        ".jpeg",
+        ".JPEG",
+        ".dcm",
+        ".DCM",
+        ".dicom",
+        ".png",
+    ]
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        for ext in extensions:
+            fpath = Path(tmp_dir) / f"image{ext}"
+
+            with open(fpath, "wb") as fout:
+                fout.write(os.urandom(1024 * 10))
+
+            assert not rap_sitkcore.is_dicom_xray(fpath)
