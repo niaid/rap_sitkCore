@@ -1,4 +1,5 @@
 from .read_dcm import read_dcm
+from .is_dicom_xray import is_dicom_xray
 
 try:
     from importlib.metadata import version, PackageNotFoundError
@@ -18,4 +19,4 @@ except PackageNotFoundError:
 
 __author__ = ["Bradley Lowekamp"]
 
-__all__ = ["read_dcm"]
+__all__ = ["read_dcm", "is_dicom_xray"]
