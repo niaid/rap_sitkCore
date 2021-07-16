@@ -15,8 +15,7 @@ def is_dicom_xray(filename: Path, strict: bool = False) -> bool:
     :return: True if the DICOM Modality may be an x-ray image.
     """
 
-    ds = pydicom.dcmread(filename)
-    print(f"Modality: {ds.Modality}")
-    if strict:
-        return ds.Modality in _strict_modalities
-    return ds.Modality in _acceptable_modalities
+    with pydicom.dcmread(filename, specific_tags=["Modality"]) as ds:
+        if strict:
+            return ds.Modality in _strict_modalities
+        return ds.Modality in _acceptable_modalities
