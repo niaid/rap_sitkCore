@@ -21,9 +21,10 @@ def helper(n: int) -> int:
 
 def srgb2gray(img: sitk.Image) -> sitk.Image:
     """
-    Convert an sRGB [0, 255] image to gray scale and rescale results to [0,255]
+    Convert an sRGB [0, 255] image to gray scale and rescale results to [0,255].
 
-    :param img: a SimpleITK Image with 3 components
+    :param img: SimpleITK Image with 3 components, any dimension.
+    :returns: scalar SimpleITK Image of UInt8
     """
     num_channels = img.GetNumberOfComponentsPerPixel()
     assert num_channels == 3

@@ -63,8 +63,9 @@ def read_dcm(filename: Path) -> sitk.Image:
     Read an x-ray DICOM file with GDCMImageIO, reducing it to 2D from 3D as needed.
     If the file cannot be read by the GDCM library, then pydicom is tried.
     Color images are converted to grayscale.
+
     :param filename: A DICOM filename
-    :return: a 2D SimpleITK Image
+    :returns: a 2D SimpleITK Image
     """
 
     if not filename.is_file():
