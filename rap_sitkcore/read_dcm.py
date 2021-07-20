@@ -2,6 +2,10 @@ import SimpleITK as sitk
 import pydicom
 from pathlib import Path
 from rap_sitkcore._util import srgb2gray
+from rap_sitkcore._dicom_utils import convert_float_list_to_mv_ds
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 def _read_dcm_pydicom(filename: Path) -> sitk.Image:
@@ -15,26 +19,40 @@ def _read_dcm_pydicom(filename: Path) -> sitk.Image:
 
     if ds.PhotometricInterpretation == "MONOCHROME2":
         img = sitk.GetImageFromArray(arr, isVector=False)
-
     elif ds.PhotometricInterpretation == "MONOCHROME1":
         # only works with unsigned
         assert ds.PixelRepresentation == 0
         # use complement to invert the pixel intensity.
         img = sitk.GetImageFromArray(~arr, isVector=False)
     elif ds.PhotometricInterpretation in ["YBR_FULL_422", "YBR_FULL", "RGB"]:
-        from pydicom.pixel_data_handlers.util import convert_color_space
 
         if ds.PhotometricInterpretation != "RGB":
+            from pydicom.pixel_data_handlers.util import convert_color_space
+
             arr = convert_color_space(ds.pixel_array, ds.PhotometricInterpretation, "RGB")
 
         img = sitk.GetImageFromArray(arr, isVector=True)
     else:
         raise RuntimeError(f'Unsupported PhotometricInterpretation: "{ds.PhotometricInterpretation}"')
 
-    if "Modality" in ds:
-        de = ds.data_element("Modality")
-        img.SetMetaData(f"{de.tag.group:04x}|{de.tag.elem:04x}", de.value)
-    # TODO Set spacing and origin etc...
+    tags_to_copy = [
+        "StudyInstanceUID",
+        "SeriesInstanceUID",
+        "Modality",
+        "PixelSpacing",
+        "ImagerPixelSpacing",
+        "DistanceSourceToDetector",
+        "ViewPosition",
+        "PatientSex",
+    ]
+
+    for tag in tags_to_copy:
+        if tag in ds:
+            de = ds.data_element(tag)
+            if de.VR in ["CS", "UI"]:
+                img.SetMetaData(f"{de.tag.group:04x}|{de.tag.elem:04x}", de.value)
+            elif de.VR == "DS":
+                img.SetMetaData(f"{de.tag.group:04x}|{de.tag.elem:04x}", convert_float_list_to_mv_ds(de.value))
 
     return img
 
