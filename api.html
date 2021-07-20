@@ -69,6 +69,20 @@ If the filename does not refer to a file, then the “FileNotFound” exception 
 <dd><p>Read an x-ray DICOM file with GDCMImageIO, reducing it to 2D from 3D as needed.
 If the file cannot be read by the GDCM library, then pydicom is tried.
 Color images are converted to grayscale.</p>
+<p>The pixel spacing of the output image is 1 and the direction cosine matrix is the identity.</p>
+<dl class="simple">
+<dt>Only selected DICOM tags are present in the output image. The supported tags include:</dt><dd><ul class="simple">
+<li><p>“StudyInstanceUID”</p></li>
+<li><p>“SeriesInstanceUID”</p></li>
+<li><p>“Modality”</p></li>
+<li><p>“PixelSpacing”</p></li>
+<li><p>“ImagerPixelSpacing”</p></li>
+<li><p>“DistanceSourceToDetector”</p></li>
+<li><p>“ViewPosition”</p></li>
+<li><p>“PatientSex”</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>filename</strong> – A DICOM filename</p>
