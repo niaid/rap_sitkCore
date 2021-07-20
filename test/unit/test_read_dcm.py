@@ -55,7 +55,7 @@ def test_read_dcm1(test_file):
 
     for tag in required_tags:
         key = keyword_to_gdcm_tag(tag)
-        assert img.HasMetaDataKey(key)
+        assert key in img
 
     for k in img.GetMetaDataKeys():
         assert k in _white_listed_dicom_tags
