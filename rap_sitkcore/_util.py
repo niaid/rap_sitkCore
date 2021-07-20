@@ -1,24 +1,6 @@
 import SimpleITK as sitk
 
 
-def helper(n: int) -> int:
-    """
-    Classic recursive implementation of computing a Fibonacci number.
-
-    :param n: an non-negative integer
-    :return: returns the n-th fibonacci number
-    """
-
-    assert n >= 0
-
-    if n == 0:
-        return 0
-    elif n == 1 or n == 2:
-        return 1
-    else:
-        return helper(n - 1) + helper(n - 2)
-
-
 def srgb2gray(img: sitk.Image) -> sitk.Image:
     """
     Convert an sRGB [0, 255] image to gray scale and rescale results to [0,255].

@@ -1,6 +1,6 @@
 import rap_sitkcore.read_dcm
 from rap_sitkcore.read_dcm import _read_dcm_sitk, _read_dcm_pydicom
-from rap_sitkcore._dicom_utils import keyword_to_gdcm_tag
+from rap_sitkcore._dicom_util import keyword_to_gdcm_tag
 import pytest
 from pathlib import Path
 from .. import data_paths

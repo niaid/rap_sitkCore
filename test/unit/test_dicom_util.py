@@ -1,4 +1,4 @@
-from rap_sitkcore._dicom_utils import convert_mv_ds_to_float_list, convert_float_list_to_mv_ds, keyword_to_gdcm_tag
+from rap_sitkcore._dicom_util import convert_mv_ds_to_float_list, convert_float_list_to_mv_ds, keyword_to_gdcm_tag
 import pytest
 
 
