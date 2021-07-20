@@ -2,10 +2,21 @@ import SimpleITK as sitk
 import pydicom
 from pathlib import Path
 from rap_sitkcore._util import srgb2gray
-from rap_sitkcore._dicom_utils import convert_float_list_to_mv_ds
+from rap_sitkcore._dicom_utils import convert_float_list_to_mv_ds, keyword_to_gdcm_tag
 import logging
 
 _logger = logging.getLogger(__name__)
+
+_keyword_to_copy = [
+    "StudyInstanceUID",
+    "SeriesInstanceUID",
+    "Modality",
+    "PixelSpacing",
+    "ImagerPixelSpacing",
+    "DistanceSourceToDetector",
+    "ViewPosition",
+    "PatientSex",
+]
 
 
 def _read_dcm_pydicom(filename: Path) -> sitk.Image:
@@ -34,24 +45,17 @@ def _read_dcm_pydicom(filename: Path) -> sitk.Image:
     else:
         raise RuntimeError(f'Unsupported PhotometricInterpretation: "{ds.PhotometricInterpretation}"')
 
-    tags_to_copy = [
-        "StudyInstanceUID",
-        "SeriesInstanceUID",
-        "Modality",
-        "PixelSpacing",
-        "ImagerPixelSpacing",
-        "DistanceSourceToDetector",
-        "ViewPosition",
-        "PatientSex",
-    ]
-
-    for tag in tags_to_copy:
+    for tag in _keyword_to_copy:
         if tag in ds:
             de = ds.data_element(tag)
             if de.VR in ["CS", "UI"]:
                 img.SetMetaData(f"{de.tag.group:04x}|{de.tag.elem:04x}", de.value)
             elif de.VR == "DS":
                 img.SetMetaData(f"{de.tag.group:04x}|{de.tag.elem:04x}", convert_float_list_to_mv_ds(de.value))
+            else:
+                raise ValueError(
+                    f'"{filename}" has data element "{de.name}" non-conforming value representation "{de.VR}".'
+                )
 
     return img
 
@@ -83,6 +87,16 @@ def read_dcm(filename: Path) -> sitk.Image:
 
     The pixel spacing of the output image is 1 and the direction cosine matrix is the identity.
 
+    Only selected DICOM tags are present in the output image. The supported tags include:
+     * "StudyInstanceUID"
+     * "SeriesInstanceUID"
+     * "Modality"
+     * "PixelSpacing"
+     * "ImagerPixelSpacing"
+     * "DistanceSourceToDetector"
+     * "ViewPosition"
+     * "PatientSex"
+
     :param filename: A DICOM filename
     :returns: a 2D SimpleITK Image
     """
@@ -103,7 +117,18 @@ def read_dcm(filename: Path) -> sitk.Image:
     img.SetDirection([1.0, 0.0, 0.0, 1.0])
 
     if img.GetNumberOfComponentsPerPixel() == 1:
+        old_keys = img.GetMetaDataKeys()
+        key_to_keep = [keyword_to_gdcm_tag(n) for n in _keyword_to_copy]
+        for k in old_keys:
+            if k not in key_to_keep:
+                img.EraseMetaData(k)
         return img
     elif img.GetNumberOfComponentsPerPixel() == 3:
-        return srgb2gray(img)
+        out = srgb2gray(img)
+        # copy tags
+        for tag_name in _keyword_to_copy:
+            key = keyword_to_gdcm_tag(tag_name)
+            if img.HasMetaDataKey(key):
+                out.SetMetaData(key, img.GetMetaData(key))
+        return out
     raise RuntimeError(f"Unsupported number of components: {img.GetNumberOfComponentsPerPixel()}")

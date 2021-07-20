@@ -1,8 +1,20 @@
 import rap_sitkcore.read_dcm
 from rap_sitkcore.read_dcm import _read_dcm_sitk, _read_dcm_pydicom
+from rap_sitkcore._dicom_utils import keyword_to_gdcm_tag
 import pytest
 from pathlib import Path
 from .. import data_paths
+
+_white_listed_dicom_tags = [
+    "0020|000d",
+    "0020|000e",
+    "0008|0060",
+    "0028|0030",
+    "0018|1164",
+    "0018|1110",
+    "0018|5101",
+    "0010|0040",
+]
 
 
 @pytest.mark.parametrize(
@@ -34,6 +46,19 @@ def test_read_dcm1(test_file):
     assert img.GetDimension() == 2
     assert img.GetSpacing() == (1.0, 1.0)
     assert img.GetDirection() == (1.0, 0.0, 0.0, 1.0)
+
+    required_tags = [
+        "StudyInstanceUID",
+        "SeriesInstanceUID",
+        "Modality",
+    ]
+
+    for tag in required_tags:
+        key = keyword_to_gdcm_tag(tag)
+        assert img.HasMetaDataKey(key)
+
+    for k in img.GetMetaDataKeys():
+        assert k in _white_listed_dicom_tags
 
 
 def test_read_dcm2():
