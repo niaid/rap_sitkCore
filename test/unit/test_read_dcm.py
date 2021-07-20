@@ -31,6 +31,9 @@ def test_read_dcm1(test_file):
 
     assert img.GetNumberOfPixels() > 0
     assert img.GetNumberOfComponentsPerPixel() == 1
+    assert img.GetDimension() == 2
+    assert img.GetSpacing() == (1.0, 1.0)
+    assert img.GetDirection() == (1.0, 0.0, 0.0, 1.0)
 
 
 def test_read_dcm2():

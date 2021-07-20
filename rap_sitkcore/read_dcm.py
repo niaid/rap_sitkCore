@@ -64,6 +64,8 @@ def read_dcm(filename: Path) -> sitk.Image:
     If the file cannot be read by the GDCM library, then pydicom is tried.
     Color images are converted to grayscale.
 
+    The pixel spacing of the output image is 1 and the direction cosine matrix is the identity.
+
     :param filename: A DICOM filename
     :returns: a 2D SimpleITK Image
     """
@@ -79,6 +81,9 @@ def read_dcm(filename: Path) -> sitk.Image:
         except Exception:
             # Re-raise exception from SimpleITK's GDCM reading
             raise e
+
+    img.SetSpacing([1.0, 1.0])
+    img.SetDirection([1.0, 0.0, 0.0, 1.0])
 
     if img.GetNumberOfComponentsPerPixel() == 1:
         return img
