@@ -94,20 +94,6 @@ Color images are converted to grayscale.</p>
 </dd></dl>
 
 <span class="target" id="module-rap_sitkcore._util"></span><dl class="py function">
-<dt class="sig sig-object py" id="rap_sitkcore._util.helper">
-<span class="sig-prename descclassname"><span class="pre">rap_sitkcore._util.</span></span><span class="sig-name descname"><span class="pre">helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#rap_sitkcore._util.helper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Classic recursive implementation of computing a Fibonacci number.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>n</strong> – an non-negative integer</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>returns the n-th fibonacci number</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="rap_sitkcore._util.srgb2gray">
 <span class="sig-prename descclassname"><span class="pre">rap_sitkcore._util.</span></span><span class="sig-name descname"><span class="pre">srgb2gray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SimpleITK.SimpleITK.Image</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.SimpleITK.Image</span></span></span><a class="headerlink" href="#rap_sitkcore._util.srgb2gray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert an sRGB [0, 255] image to gray scale and rescale results to [0,255].</p>
@@ -117,6 +103,55 @@ Color images are converted to grayscale.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>scalar SimpleITK Image of UInt8</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-rap_sitkcore._dicom_util"></span><dl class="py function">
+<dt class="sig sig-object py" id="rap_sitkcore._dicom_util.convert_float_list_to_mv_ds">
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore._dicom_util.</span></span><span class="sig-name descname"><span class="pre">convert_float_list_to_mv_ds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#rap_sitkcore._dicom_util.convert_float_list_to_mv_ds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a iterable of float to the DICOM mutli-value representation for decimal string (DS).</p>
+<p>This method is intended to convert the pydicom MV DS data elements to the representation that GDCM produced for
+SimpleITK.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – an iterable or list like object of convertable to float values.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value encode in for DICOM representation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rap_sitkcore._dicom_util.convert_mv_ds_to_float_list">
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore._dicom_util.</span></span><span class="sig-name descname"><span class="pre">convert_mv_ds_to_float_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vm</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#rap_sitkcore._dicom_util.convert_mv_ds_to_float_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the file representation, into data for a multi-value Decimal String (DS).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rep</strong> – the representation of attribute occurring in the file</p></li>
+<li><p><strong>vm</strong> – the expected Value Multiplicity of rep, if 0 then any number of multivalues is accepted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a list of float converted from rep</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rap_sitkcore._dicom_util.keyword_to_gdcm_tag">
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore._dicom_util.</span></span><span class="sig-name descname"><span class="pre">keyword_to_gdcm_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#rap_sitkcore._dicom_util.keyword_to_gdcm_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a DICOM keyword to a DICOM tag formatted as a string to match GDCM representation.</p>
+<p>Example: “SeriesDescription”-&gt; “0008|103e”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>keyword</strong> – a string representation of a DICOM metadata keyword, following the defined camel case convention</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a string representation of the keyword as a metadata tag, consisting of the group in hex, a ‘|’
+deliminator and the element in hex.</p>
 </dd>
 </dl>
 </dd></dl>
