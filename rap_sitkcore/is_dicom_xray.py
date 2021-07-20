@@ -2,8 +2,16 @@ import pydicom
 from pydicom.errors import InvalidDicomError
 from pathlib import Path
 
-_strict_modalities = ("CR", "XC", "RG", "XA", "DX")
-_acceptable_modalities = _strict_modalities + ("HC",)
+
+import logging
+
+_logger = logging.getLogger(__name__)
+
+_strict_modalities = ("CR", "RG", "XA", "DX")
+_acceptable_modalities = _strict_modalities + (
+    "HC",
+    "XC",
+)
 
 
 def is_dicom_xray(filename: Path, strict: bool = False) -> bool:
@@ -21,6 +29,7 @@ def is_dicom_xray(filename: Path, strict: bool = False) -> bool:
 
     try:
         with pydicom.dcmread(filename, specific_tags=["Modality"]) as ds:
+            _logger.debug(f'"{str(filename)}" has "{ds.Modality}" modality.')
             if strict:
                 return ds.Modality in _strict_modalities
             return ds.Modality in _acceptable_modalities
