@@ -1,4 +1,5 @@
 from typing import List
+import pydicom
 
 # Value Multiplicity delimiter
 _vm_delimiter = "\\"
@@ -39,3 +40,17 @@ def convert_float_list_to_mv_ds(value: List[float]) -> str:
         rep += " "
 
     return rep
+
+
+def keyword_to_gdcm_tag(keyword: str) -> str:
+    """Converts a DICOM keyword to a DICOM tag formatted as a string to match GDCM representation.
+
+    Example: "SeriesDescription"-> "0008|103e"
+
+    :param keyword: a string representation of a DICOM metadata keyword, following the defined camel case convention
+    :returns: a string representation of the keyword as a metadata tag, consisting of the group in hex, a '|'
+     deliminator and the element in hex.
+
+    """
+    tag = pydicom.tag.Tag(keyword)
+    return f"{tag.group:04x}|{tag.elem:04x}"
