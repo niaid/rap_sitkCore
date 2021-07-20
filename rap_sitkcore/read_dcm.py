@@ -2,7 +2,7 @@ import SimpleITK as sitk
 import pydicom
 from pathlib import Path
 from rap_sitkcore._util import srgb2gray
-from rap_sitkcore._dicom_utils import convert_float_list_to_mv_ds, keyword_to_gdcm_tag
+from rap_sitkcore._dicom_util import convert_float_list_to_mv_ds, keyword_to_gdcm_tag
 import logging
 
 _logger = logging.getLogger(__name__)
