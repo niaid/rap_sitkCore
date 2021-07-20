@@ -13,7 +13,6 @@ def _read_dcm_pydicom(filename: Path) -> sitk.Image:
     Reading implementation with pydicom for DICOM
     """
     ds = pydicom.dcmread(filename)
-    img = sitk.GetImageFromArray(ds.pixel_array, isVector=(len(ds.pixel_array.shape) == 3))
 
     arr = ds.pixel_array
 
