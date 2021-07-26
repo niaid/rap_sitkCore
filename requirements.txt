@@ -1,4 +1,4 @@
-SimpleITK ==2.0.2
+SimpleITK >=2.1.0, <2.2
 numpy >=1.19, <=1.20
 pydicom
 

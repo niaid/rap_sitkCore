@@ -49,9 +49,9 @@ def _read_dcm_pydicom(filename: Path) -> sitk.Image:
         if tag in ds:
             de = ds.data_element(tag)
             if de.VR in ["CS", "UI"]:
-                img.SetMetaData(f"{de.tag.group:04x}|{de.tag.elem:04x}", de.value)
+                img[f"{de.tag.group:04x}|{de.tag.elem:04x}"] = de.value
             elif de.VR == "DS":
-                img.SetMetaData(f"{de.tag.group:04x}|{de.tag.elem:04x}", convert_float_list_to_mv_ds(de.value))
+                img[f"{de.tag.group:04x}|{de.tag.elem:04x}"] = convert_float_list_to_mv_ds(de.value)
             else:
                 raise ValueError(
                     f'"{filename}" has data element "{de.name}" non-conforming value representation "{de.VR}".'
@@ -121,14 +121,14 @@ def read_dcm(filename: Path) -> sitk.Image:
         key_to_keep = [keyword_to_gdcm_tag(n) for n in _keyword_to_copy]
         for k in old_keys:
             if k not in key_to_keep:
-                img.EraseMetaData(k)
+                del img[k]
         return img
     elif img.GetNumberOfComponentsPerPixel() == 3:
         out = srgb2gray(img)
         # copy tags
         for tag_name in _keyword_to_copy:
             key = keyword_to_gdcm_tag(tag_name)
-            if img.HasMetaDataKey(key):
-                out.SetMetaData(key, img.GetMetaData(key))
+            if key in img:
+                out[key] = img[key]
         return out
     raise RuntimeError(f"Unsupported number of components: {img.GetNumberOfComponentsPerPixel()}")
