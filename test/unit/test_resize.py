@@ -13,7 +13,7 @@ import SimpleITK as sitk
         ("square_uint8.dcm", (256, 256), "e8358046f74f0977f2e55df97bab0318"),
     ],
 )
-def test_dcm_thumbnail(file_name, thumbnail_size, md5_hash):
+def test_resize_and_scale_uint8_1(file_name, thumbnail_size, md5_hash):
 
     filename = data_paths[file_name]
     img = read_dcm(Path(filename))
@@ -24,3 +24,29 @@ def test_dcm_thumbnail(file_name, thumbnail_size, md5_hash):
     assert sitk.Hash(thumbnail_img, function=sitk.HashImageFilter.MD5) == md5_hash
     assert thumbnail_img.GetNumberOfComponentsPerPixel() == 1
     assert thumbnail_img.GetPixelID() == sitk.sitkUInt8
+
+
+def test_resize_and_scale_uint8_2():
+    thumbnail_size = [128, 128]
+    img_size = (1024, 1024)
+
+    img = sitk.Image(img_size, sitk.sitkUInt8)
+
+    thumbnail_img = resize_and_scale_uint8(img, thumbnail_size)
+    assert thumbnail_img.GetPixelID() == sitk.sitkUInt8
+
+    img = sitk.Image(img_size, sitk.sitkVectorUInt8, 3)
+    thumbnail_img = resize_and_scale_uint8(img, thumbnail_size)
+    assert thumbnail_img.GetPixelID() == sitk.sitkVectorUInt8
+
+    img = sitk.Image(img_size, sitk.sitkVectorUInt8, 2)
+    thumbnail_img = resize_and_scale_uint8(img, thumbnail_size)
+    assert thumbnail_img.GetPixelID() == sitk.sitkVectorUInt8
+
+    img = sitk.Image(img_size, sitk.sitkVectorFloat32, 3)
+    with pytest.raises(ValueError):
+        resize_and_scale_uint8(img, thumbnail_size)
+
+    img = sitk.Image(img_size, sitk.sitkVectorInt8, 3)
+    with pytest.raises(ValueError):
+        resize_and_scale_uint8(img, thumbnail_size)

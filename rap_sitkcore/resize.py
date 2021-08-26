@@ -24,7 +24,7 @@ def resize_and_scale_uint8(image: sitk.Image, new_size: List[int]) -> sitk.Image
     final_image = sitk.Resample(image, size=new_size, outputOrigin=new_origin, outputSpacing=new_spacing)
 
     # Rescale intensities if scalar image with pixel type that isn't sitkUInt8.
-    if final_image.GetPixelID() == sitk.sitkUInt8:
+    if final_image.GetPixelID() in (sitk.sitkUInt8, sitk.sitkVectorUInt8):
         pass
     elif final_image.GetNumberOfComponentsPerPixel() == 1:
         final_image = sitk.Cast(sitk.RescaleIntensity(final_image), sitk.sitkUInt8)
