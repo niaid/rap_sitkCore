@@ -1,5 +1,6 @@
 from .read_dcm import read_dcm
 from .is_dicom_xray import is_dicom_xray
+from .resize import resize_and_scale_uint8
 
 try:
     from importlib.metadata import version, PackageNotFoundError
@@ -19,4 +20,4 @@ except PackageNotFoundError:
 
 __author__ = ["Bradley Lowekamp"]
 
-__all__ = ["read_dcm", "is_dicom_xray"]
+__all__ = ["read_dcm", "is_dicom_xray", "resize_and_scale_uint8"]
