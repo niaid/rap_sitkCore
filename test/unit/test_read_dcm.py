@@ -4,6 +4,7 @@ from rap_sitkcore._dicom_util import keyword_to_gdcm_tag
 import pytest
 from pathlib import Path
 from .. import data_paths
+import SimpleITK as sitk
 
 _white_listed_dicom_tags = [
     "0020|000d",
@@ -32,6 +33,11 @@ _white_listed_dicom_tags = [
         "n10.dcm",
         "n11.dcm",
         "n12.dcm",
+        "1.2.392.200036.9116.2.5.1.37.2429823676.1495586039.603772.DCM",
+        "2.25.298570032897489859462791131067889681111.dcm",
+        "non_square_color.dcm",
+        "non_square_uint16.dcm",
+        "square_uint8.dcm",
     ],
 )
 def test_read_dcm1(test_file):
@@ -69,6 +75,27 @@ def test_read_dcm2():
 
 
 @pytest.mark.parametrize(
+    "file_name,image_size,image_md5,modality",
+    [
+        ("non_square_color.dcm", (3555, 2894), "7c865539fa50739991d11ab39970fd66", "XC"),
+        ("non_square_uint16.dcm", (2828, 2320), "78d3b4d4aeb6debaec3b5905272df572", "CR"),
+        ("square_uint8.dcm", (2630, 2529), "f5dec5a1ae076040e7e2d365666d26cb", "CR"),
+        ("2.25.298570032897489859462791131067889681111.dcm", (4000, 3000), "9eae70e3f4601c19e88feb63d31fd92e", "CR"),
+    ],
+)
+def test_read_dcm3(file_name, image_size, image_md5, modality):
+    """Test migrated from tbp_image_refresh_thumbnail"""
+    dicom_tag_modality = "0008|0060"
+
+    filename = data_paths[file_name]
+    img = rap_sitkcore.read_dcm(Path(filename))
+
+    assert img.GetSize() == image_size
+    assert sitk.Hash(img, function=sitk.HashImageFilter.MD5) == image_md5
+    assert img.GetMetaData(dicom_tag_modality) == modality
+
+
+@pytest.mark.parametrize(
     ("test_file", "number_of_components"),
     [
         ("1.3.6.1.4.1.25403.163683357445804.11044.20131119114627.12.dcm", 1),
@@ -83,6 +110,11 @@ def test_read_dcm2():
         ("n10.dcm", 1),
         ("n11.dcm", 1),
         ("n12.dcm", 1),
+        ("1.2.392.200036.9116.2.5.1.37.2429823676.1495586039.603772.DCM", 1),
+        ("2.25.298570032897489859462791131067889681111.dcm", 1),
+        ("non_square_color.dcm", 3),
+        ("non_square_uint16.dcm", 1),
+        ("square_uint8.dcm", 1),
     ],
 )
 def test_read_dcm_pydicom(test_file, number_of_components):
@@ -108,6 +140,12 @@ def test_read_dcm_pydicom(test_file, number_of_components):
         ("n10.dcm", False, 1),
         ("n11.dcm", False, 1),
         ("n12.dcm", False, 1),
+        ("1.2.392.200036.9116.2.5.1.37.2429823676.1495586039.603772.DCM", True, 1),
+        ("1.2.840.113704.9.1000.16.2.201903221237504530000100020001.I10", True, 1),
+        ("2.25.298570032897489859462791131067889681111.dcm", True, 1),
+        ("non_square_color.dcm", False, 3),
+        ("non_square_uint16.dcm", False, 1),
+        ("square_uint8.dcm", False, 1),
     ],
 )
 def test_read_dcm_simpleitk(test_file, expected_exception, number_of_components):
