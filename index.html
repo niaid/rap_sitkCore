@@ -47,9 +47,36 @@
 <h2>Radiomics Analysis Portal sitkCore<a class="headerlink" href="#radiomics-analysis-portal-sitkcore" title="Permalink to this headline">¶</a></h2>
 <p>This sitkCore for the Radiomics Analysis Portal (RAP) contains common utilities for developing algorithms for analysis
 of data from Tuberculosis Portals (TBPortals). The tools are written in Python and provided as an installable Python
-package. The application programming interface (API) is documented in Sphinx:
-<a class="reference external" href="https://sturdy-winner-164e7c64.pages.github.io/">https://sturdy-winner-164e7c64.pages.github.io/</a></p>
+package. The application programming interface (API) is documented in Sphinx: <a class="reference external" href="https://niaid.github.io/rap_sitkCore">https://niaid.github.io/rap_sitkCore</a></p>
 <a class="reference external image-reference" href="https://github.com/niaid/rap_sitkCore/actions/workflows/main.yml"><img alt="Master Build Status" src="https://github.com/niaid/rap_sitkCore/actions/workflows/main.yml/badge.svg?branch=master" /></a>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>The Python module is distributed as a <a class="reference external" href="https://www.python.org/dev/peps/pep-0427/">wheel</a> binary package.</p>
+<p>Dependencies are conventionally specified in <cite>setup.py</cite> and <cite>requirements.txt</cite>.</p>
+<section id="niaid-artifactory">
+<h4>NIAID Artifactory<a class="headerlink" href="#niaid-artifactory" title="Permalink to this headline">¶</a></h4>
+<p>The <cite>rap_sitkcore</cite> package can be installed from the internal NIAID Python Package Index (PyPI) hosted on
+artifactory with <a class="reference external" href="https://pip.pypa.io/en/stable/quickstart/">pip</a>. When this package is a dependency for other projects it can be automatically download from the
+artifactory. The internal repository can be automatically used by setting an environment variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PIP_EXTRA_INDEX_URL</span><span class="o">=</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="p">{</span><span class="n">USERNAME</span><span class="p">}:{</span><span class="n">PASSWORD</span><span class="p">}</span><span class="nd">@artifactory</span><span class="o">.</span><span class="n">niaid</span><span class="o">.</span><span class="n">nih</span><span class="o">.</span><span class="n">gov</span><span class="o">/</span><span class="n">artifactory</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">pypi</span><span class="o">/</span><span class="n">bcbb</span><span class="o">-</span><span class="n">pypi</span><span class="o">/</span><span class="n">simple</span>
+</pre></div>
+</div>
+<p>Then running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">rap_sitkcore</span>
+</pre></div>
+</div>
+<p>Then the <cite>rap_sitkcore</cite> package can be installed if specified in another projects requirements.txt.</p>
+</section>
+<section id="github-releases">
+<h4>Github Releases<a class="headerlink" href="#github-releases" title="Permalink to this headline">¶</a></h4>
+<p>Wheels from the master branch can be manually download wheel from <a class="reference external" href="https://github.com/niaid/rap_sitkCore/actions?query=branch%3Amaster">Github Actions</a> in the “python-package” artifact.</p>
+<p>Download the latest tagged release from the <a class="reference external" href="https://github.com/niaid/rap_sitkCore/release">Github Releases</a> page.</p>
+<p>The wheel lists the package dependencies which are required for successful installation. This include internal NIAID
+packages. If the internal “artifactory” repository is not configured then these additional dependencies will need to be
+manually downloaded and installed before install <cite>tbpcxr</cite>. The downloaded wheels can be installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">rap_sitkcore</span><span class="o">-</span><span class="mf">0.1</span><span class="o">-</span><span class="n">py3</span><span class="o">-</span><span class="n">none</span><span class="o">-</span><span class="nb">any</span><span class="o">.</span><span class="n">whl</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -67,6 +94,8 @@ package. The application programming interface (API) is documented in Sphinx:
 </div>
 </section>
 </section>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -78,7 +107,14 @@ package. The application programming interface (API) is documented in Sphinx:
   <h3><a href="#">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Welcome to rap_sitkcore’s documentation!</a><ul>
-<li><a class="reference internal" href="#radiomics-analysis-portal-sitkcore">Radiomics Analysis Portal sitkCore</a></li>
+<li><a class="reference internal" href="#radiomics-analysis-portal-sitkcore">Radiomics Analysis Portal sitkCore</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#niaid-artifactory">NIAID Artifactory</a></li>
+<li><a class="reference internal" href="#github-releases">Github Releases</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
