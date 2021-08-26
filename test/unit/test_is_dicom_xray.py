@@ -75,6 +75,12 @@ def test_is_dicom_xray3():
         ("n10.dcm", False),  # "OT" modality
         ("n11.dcm", False),  # "OT" modality
         ("n12.dcm", False),  # "OT" modality
+        ("1.2.392.200036.9116.2.5.1.37.2429823676.1495586039.603772.DCM", False),
+        ("1.2.840.113704.9.1000.16.2.201903221237504530000100020001.I10", False),  # "SR" modality
+        ("2.25.298570032897489859462791131067889681111.dcm", True),
+        ("non_square_color.dcm", False),
+        ("non_square_uint16.dcm", True),
+        ("square_uint8.dcm", True),
     ],
 )
 def test_is_dicom_xray4(test_file, is_xray):
