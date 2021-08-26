@@ -1,5 +1,6 @@
 SimpleITK >=2.1.0, <2.2
-numpy >=1.19, <=1.20
+# older version of numpy have compatibility problems with pylibjpeg versions on 3.8+ python
+numpy>=1.19.0
 pydicom
 
 # additional packages for pydicom to expand supported files
