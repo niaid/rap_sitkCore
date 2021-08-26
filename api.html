@@ -93,6 +93,26 @@ Color images are converted to grayscale.</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="rap_sitkcore.resize_and_scale_uint8">
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore.</span></span><span class="sig-name descname"><span class="pre">resize_and_scale_uint8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SimpleITK.SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.SimpleITK.Image</span></span></span><a class="headerlink" href="#rap_sitkcore.resize_and_scale_uint8" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resize the given image to the given size, with isotropic pixel spacing
+and scale the intensities to [0,255].</p>
+<p>Resizing retains the original aspect ratio, with the original image centered
+in the new image. Zero padding is added outside the original image extent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> – A SimpleITK image.</p></li>
+<li><p><strong>new_size</strong> – List of ints specifying the new image size.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a 2D SimpleITK image with desired size and a pixel type of sitkUInt8</p>
+</dd>
+</dl>
+</dd></dl>
+
 <span class="target" id="module-rap_sitkcore._util"></span><dl class="py function">
 <dt class="sig sig-object py" id="rap_sitkcore._util.srgb2gray">
 <span class="sig-prename descclassname"><span class="pre">rap_sitkcore._util.</span></span><span class="sig-name descname"><span class="pre">srgb2gray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SimpleITK.SimpleITK.Image</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.SimpleITK.Image</span></span></span><a class="headerlink" href="#rap_sitkcore._util.srgb2gray" title="Permalink to this definition">¶</a></dt>
