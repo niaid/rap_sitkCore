@@ -48,10 +48,14 @@ def _read_dcm_pydicom(filename: Path) -> sitk.Image:
     for tag in _keyword_to_copy:
         if tag in ds:
             de = ds.data_element(tag)
-            if de.VR in ["CS", "UI"]:
-                img[f"{de.tag.group:04x}|{de.tag.elem:04x}"] = de.value
-            elif de.VR == "DS":
-                img[f"{de.tag.group:04x}|{de.tag.elem:04x}"] = convert_float_list_to_mv_ds(de.value)
+            key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
+            if de.VR == "DS":
+                if de.VM > 1:
+                    img[key] = convert_float_list_to_mv_ds(de.value)
+                else:
+                    img[key] = str(float(de.value))
+            elif de.VR in ["CS", "UI"]:
+                img[key] = de.value
             else:
                 raise ValueError(
                     f'"{filename}" has data element "{de.name}" non-conforming value representation "{de.VR}".'
