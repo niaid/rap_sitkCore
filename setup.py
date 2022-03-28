@@ -31,7 +31,8 @@ setup(
     url="https://www.niaid.nih.gov/research/bioinformatics-computational-biosciences-branch",
     license="Apache 2.0",
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        # The version is <1.0, and there may be API incompatibilities from minor version to minor version
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
