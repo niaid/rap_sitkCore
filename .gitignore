@@ -3,6 +3,7 @@ coverage.xml
 htmlcov
 *.egg-info
 .idea
+__pycache__/
 
 build
 dist

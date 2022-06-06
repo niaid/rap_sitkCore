@@ -2,6 +2,7 @@ SimpleITK >=2.1.0, <2.2
 
 numpy
 pydicom
+requests
 
 # additional packages for pydicom to expand supported files
 pillow
