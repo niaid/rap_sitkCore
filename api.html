@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>API &#8212; rap_sitkcore  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -13,6 +13,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
@@ -42,22 +43,22 @@
           <div class="body" role="main">
             
   <section id="module-rap_sitkcore">
-<span id="api"></span><h1>API<a class="headerlink" href="#module-rap_sitkcore" title="Permalink to this headline">¶</a></h1>
+<span id="api"></span><h1>API<a class="headerlink" href="#module-rap_sitkcore" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="rap_sitkcore.is_dicom_xray">
-<span class="sig-prename descclassname"><span class="pre">rap_sitkcore.</span></span><span class="sig-name descname"><span class="pre">is_dicom_xray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#rap_sitkcore.is_dicom_xray" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore.</span></span><span class="sig-name descname"><span class="pre">is_dicom_xray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#rap_sitkcore.is_dicom_xray" title="Permalink to this definition">¶</a></dt>
 <dd><p>For a DICOM file, inspects the Modality meta-data field to determine if the image is an x-ray. This classification
 is for the TBPortals collection to primarily x-ray from CT scans.</p>
 <p>If the filename is not in DICOM format, then false is returned.
 If the filename does not refer to a file, then the “FileNotFound” exception will be thrown.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> – a Path to a DICOM file to inspect</p></li>
 <li><p><strong>strict</strong> – If true scanned? picture? modalities are not considered.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the DICOM Modality may be an x-ray image.</p>
 </dd>
 </dl>
@@ -65,7 +66,7 @@ If the filename does not refer to a file, then the “FileNotFound” exception 
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rap_sitkcore.read_dcm">
-<span class="sig-prename descclassname"><span class="pre">rap_sitkcore.</span></span><span class="sig-name descname"><span class="pre">read_dcm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.SimpleITK.Image</span></span></span><a class="headerlink" href="#rap_sitkcore.read_dcm" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore.</span></span><span class="sig-name descname"><span class="pre">read_dcm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Image</span></span></span><a class="headerlink" href="#rap_sitkcore.read_dcm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read an x-ray DICOM file with GDCMImageIO, reducing it to 2D from 3D as needed.
 If the file cannot be read by the GDCM library, then pydicom is tried.
 Color images are converted to grayscale.</p>
@@ -84,30 +85,56 @@ Color images are converted to grayscale.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filename</strong> – A DICOM filename</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a 2D SimpleITK Image</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="rap_sitkcore.read_dcm_header_pydicom">
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore.</span></span><span class="sig-name descname"><span class="pre">read_dcm_header_pydicom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath_or_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_chunk_size_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10240</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">FileDataset</span></span></span><a class="headerlink" href="#rap_sitkcore.read_dcm_header_pydicom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the DICOM headers from either a local file (by file path) or a remote file (by URL).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath_or_url</strong> – A string containing either a path or a URL.  The URL must be prefixed by either
+‘<a class="reference external" href="http://">http://</a>’ or ‘<a class="reference external" href="https://">https://</a>’.</p></li>
+<li><p><strong>download_chunk_size_bytes</strong> – An integer controlling the download chunk size if the file is remote,
+defaults to 1024 bytes.</p></li>
+<li><p><strong>stream</strong> – <p>A boolean indicating whether the HTTP request (if filepath_or_url points to a remote file)
+should be streamed.</p>
+<p>For this to work, the server must support the chunked transfer-encoding.  If it doesn’t, requests
+<em>should</em> treat this as a normal request and download the entire request contents before passing to
+pydicom dcmread.
+<strong>************************************************************************************</strong></p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a pydicom.dataset.FileDataset representing the DICOM indicated by filepath_or_url</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="rap_sitkcore.resize_and_scale_uint8">
-<span class="sig-prename descclassname"><span class="pre">rap_sitkcore.</span></span><span class="sig-name descname"><span class="pre">resize_and_scale_uint8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.SimpleITK.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.SimpleITK.Image</span></span></span><a class="headerlink" href="#rap_sitkcore.resize_and_scale_uint8" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore.</span></span><span class="sig-name descname"><span class="pre">resize_and_scale_uint8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Image</span></span></span><a class="headerlink" href="#rap_sitkcore.resize_and_scale_uint8" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resize the given image to the given size, with isotropic pixel spacing
 and scale the intensities to [0,255].</p>
 <p>Resizing retains the original aspect ratio, with the original image centered
 in the new image. Zero padding is added outside the original image extent.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>image</strong> – A SimpleITK image.</p></li>
 <li><p><strong>new_size</strong> – List of ints specifying the new image size.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a 2D SimpleITK image with desired size and a pixel type of sitkUInt8</p>
 </dd>
 </dl>
@@ -115,13 +142,13 @@ in the new image. Zero padding is added outside the original image extent.</p>
 
 <span class="target" id="module-rap_sitkcore._util"></span><dl class="py function">
 <dt class="sig sig-object py" id="rap_sitkcore._util.srgb2gray">
-<span class="sig-prename descclassname"><span class="pre">rap_sitkcore._util.</span></span><span class="sig-name descname"><span class="pre">srgb2gray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SimpleITK.SimpleITK.Image</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SimpleITK.SimpleITK.Image</span></span></span><a class="headerlink" href="#rap_sitkcore._util.srgb2gray" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rap_sitkcore._util.</span></span><span class="sig-name descname"><span class="pre">srgb2gray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Image</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Image</span></span></span><a class="headerlink" href="#rap_sitkcore._util.srgb2gray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert an sRGB [0, 255] image to gray scale and rescale results to [0,255].</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>img</strong> – SimpleITK Image with 3 components, any dimension.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>scalar SimpleITK Image of UInt8</p>
 </dd>
 </dl>
@@ -134,10 +161,10 @@ in the new image. Zero padding is added outside the original image extent.</p>
 <p>This method is intended to convert the pydicom MV DS data elements to the representation that GDCM produced for
 SimpleITK.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – an iterable or list like object of convertable to float values.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The value encode in for DICOM representation.</p>
 </dd>
 </dl>
@@ -148,13 +175,13 @@ SimpleITK.</p>
 <span class="sig-prename descclassname"><span class="pre">rap_sitkcore._dicom_util.</span></span><span class="sig-name descname"><span class="pre">convert_mv_ds_to_float_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#rap_sitkcore._dicom_util.convert_mv_ds_to_float_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts the file representation, into data for a multi-value Decimal String (DS).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rep</strong> – the representation of attribute occurring in the file</p></li>
 <li><p><strong>vm</strong> – the expected Value Multiplicity of rep, if 0 then any number of multivalues is accepted</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a list of float converted from rep</p>
 </dd>
 </dl>
@@ -166,10 +193,10 @@ SimpleITK.</p>
 <dd><p>Converts a DICOM keyword to a DICOM tag formatted as a string to match GDCM representation.</p>
 <p>Example: “SeriesDescription”-&gt; “0008|103e”</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>keyword</strong> – a string representation of a DICOM metadata keyword, following the defined camel case convention</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a string representation of the keyword as a metadata tag, consisting of the group in hex, a ‘|’
 deliminator and the element in hex.</p>
 </dd>
@@ -206,7 +233,7 @@ deliminator and the element in hex.</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -229,7 +256,7 @@ deliminator and the element in hex.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, Bradley Lowekamp.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.1.
     </div>
   </body>
 </html>
