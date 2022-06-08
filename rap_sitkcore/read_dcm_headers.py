@@ -109,11 +109,11 @@ def _read_dcm_header_pydicom(
                     should be streamed.
 
                     If filepath_or_url points to a local file, this parameter is ignored.
-                    ****************************************************************************************
+                    -------
                     For this to work, the server must support the chunked transfer-encoding.  If it doesn't, requests
                     *should* treat this as a normal request and download the entire request contents before passing to
                     pydicom dcmread.
-                    ****************************************************************************************
+                    --------
     :returns: tuple of the following format:
                    (
                        pydicom.dataset.FileDataset: the pydicom file dataset object,
@@ -151,11 +151,11 @@ def read_dcm_header_pydicom(
                     should be streamed.
 
                     If filepath_or_url points to a local file, this parameter is ignored.
-                    ****************************************************************************************
+                    --------
                     For this to work, the server must support the chunked transfer-encoding.  If it doesn't, requests
                     *should* treat this as a normal request and download the entire request contents before passing to
                     pydicom dcmread.
-                    ****************************************************************************************
+                    --------
     :returns: a pydicom.dataset.FileDataset representing the DICOM indicated by filepath_or_url
     """
     return _read_dcm_header_pydicom(
