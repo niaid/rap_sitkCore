@@ -1,7 +1,6 @@
 import rap_sitkcore.is_dicom_xray
 import pytest
 from pathlib import Path
-from .. import data_paths
 import os
 import tempfile
 
@@ -23,7 +22,7 @@ import tempfile
         ("n12.dcm", False),  # "OT" modality
     ],
 )
-def test_is_dicom_xray1(test_file, is_xray):
+def test_is_dicom_xray1(test_file, is_xray, data_paths):
     """ """
 
     filename = data_paths[test_file]
@@ -60,6 +59,10 @@ def test_is_dicom_xray3():
             assert not rap_sitkcore.is_dicom_xray(fpath)
 
 
+def test_is_dicom_xray4(remote_data_paths):
+    print(remote_data_paths)
+
+
 @pytest.mark.parametrize(
     ("test_file", "is_xray"),
     [
@@ -83,7 +86,7 @@ def test_is_dicom_xray3():
         ("square_uint8.dcm", True),
     ],
 )
-def test_is_dicom_xray4(test_file, is_xray):
+def test_is_dicom_xray4(test_file, is_xray, data_paths):
     """Testing with strict option"""
 
     filename = data_paths[test_file]

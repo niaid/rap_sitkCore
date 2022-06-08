@@ -1,7 +1,6 @@
 from rap_sitkcore import read_dcm, resize_and_scale_uint8
 import pytest
 from pathlib import Path
-from .. import data_paths
 import SimpleITK as sitk
 
 
@@ -13,7 +12,7 @@ import SimpleITK as sitk
         ("square_uint8.dcm", (256, 256), "e8358046f74f0977f2e55df97bab0318"),
     ],
 )
-def test_resize_and_scale_uint8_1(file_name, thumbnail_size, md5_hash):
+def test_resize_and_scale_uint8_1(file_name, thumbnail_size, md5_hash, data_paths):
 
     filename = data_paths[file_name]
     img = read_dcm(Path(filename))

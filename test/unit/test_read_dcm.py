@@ -3,7 +3,6 @@ from rap_sitkcore.read_dcm import _read_dcm_sitk, _read_dcm_pydicom
 from rap_sitkcore._dicom_util import keyword_to_gdcm_tag
 import pytest
 from pathlib import Path
-from .. import data_paths
 import SimpleITK as sitk
 
 _white_listed_dicom_tags = [
@@ -40,7 +39,7 @@ _white_listed_dicom_tags = [
         "square_uint8.dcm",
     ],
 )
-def test_read_dcm1(test_file):
+def test_read_dcm1(test_file, data_paths):
     """ """
 
     filename = data_paths[test_file]
@@ -83,7 +82,7 @@ def test_read_dcm2():
         ("2.25.298570032897489859462791131067889681111.dcm", (4000, 3000), "9eae70e3f4601c19e88feb63d31fd92e", "CR"),
     ],
 )
-def test_read_dcm3(file_name, image_size, image_md5, modality):
+def test_read_dcm3(file_name, image_size, image_md5, modality, data_paths):
     """Test migrated from tbp_image_refresh_thumbnail"""
     dicom_tag_modality = "0008|0060"
 
@@ -117,7 +116,7 @@ def test_read_dcm3(file_name, image_size, image_md5, modality):
         ("square_uint8.dcm", 1),
     ],
 )
-def test_read_dcm_pydicom(test_file, number_of_components):
+def test_read_dcm_pydicom(test_file, number_of_components, data_paths):
     filename = data_paths[test_file]
 
     img = _read_dcm_pydicom(Path(filename))
@@ -148,7 +147,7 @@ def test_read_dcm_pydicom(test_file, number_of_components):
         ("square_uint8.dcm", False, 1),
     ],
 )
-def test_read_dcm_simpleitk(test_file, expected_exception, number_of_components):
+def test_read_dcm_simpleitk(test_file, expected_exception, number_of_components, data_paths):
     filename = data_paths[test_file]
 
     if expected_exception:
