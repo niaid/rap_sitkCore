@@ -1,5 +1,4 @@
 import pytest
-import requests
 import time
 from rap_sitkcore.read_dcm_headers import _read_dcm_header_pydicom
 

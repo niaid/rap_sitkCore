@@ -1,8 +1,9 @@
 """ Functions related to retrieving the dicom headers from a file """
 import pydicom
 import requests
-import pathlib
+from pathlib import Path
 from io import SEEK_SET, SEEK_END
+from typing import Any, Union
 
 
 class _ResponseStream(object):
@@ -96,13 +97,13 @@ Some quick tests on one image (only the chunk_size parameter is varied):
 
 
 def _read_dcm_header_pydicom(
-    filepath_or_url: str, download_chunk_size_bytes: int = 10240, stream: bool = True
+    filepath_or_url: Union[str, Path], download_chunk_size_bytes: int = 10240, stream: bool = True, **kwargs: Any
 ) -> tuple:
     """
     Get the DICOM headers from either a local file (by file path) or a remote file (by URL).
 
     :param filepath_or_url: A string containing either a path or a URL.  The URL must be prefixed by either
-                    'http://' or 'https://'.
+                    'http://' or 'https://'. Or a filepath as a pathlib Path object.
     :param download_chunk_size_bytes: An integer controlling the download chunk size if the file is remote,
                     defaults to 1024 bytes.
     :param stream: A boolean indicating whether the HTTP request (if filepath_or_url points to a remote file)
@@ -114,37 +115,41 @@ def _read_dcm_header_pydicom(
                     *should* treat this as a normal request and download the entire request contents before passing to
                     pydicom dcmread.
                     --------
+    :param kwargs: keywords are forwarded to pydicom.dcmread
     :returns: tuple of the following format:
                    (
                        pydicom.dataset.FileDataset: the pydicom file dataset object,
                        'fp': the object that pydicom reads from - a ResponseStream for remote files or a path for
                              local ones,
-                       'response': the raw requests responsee
+                       'response': the raw requests response
                    )
     """
-    # Try to see if filepath_or_url is a valid url
-    try:
-        # Make request; could/should make this a session for repeated requests.
-        response = requests.get(filepath_or_url, stream=stream)
-    except requests.exceptions.MissingSchema:
-        response = None
-        # There wasn't an http or https, so treat this as a local file
-        fp = pathlib.Path(filepath_or_url)
+    response = None
+    if isinstance(filepath_or_url, Path):
+        fp = filepath_or_url
     else:
-        # create a seekable interface into requests content iterator
-        fp = _ResponseStream(response.iter_content(download_chunk_size_bytes))
+        # Try to see if filepath_or_url is a valid url
+        try:
+            # Make request; could/should make this a session for repeated requests.
+            response = requests.get(filepath_or_url, stream=stream)
+        except requests.exceptions.MissingSchema:
+            # There wasn't an http or https, so treat this as a local file
+            fp = Path(filepath_or_url)
+        else:
+            # create a seekable interface into requests content iterator
+            fp = _ResponseStream(response.iter_content(download_chunk_size_bytes))
     # Return the object that pydicom reads from and the raw requests response (for testing purposes).
-    return (pydicom.dcmread(fp=fp, stop_before_pixels=True), fp, response)
+    return (pydicom.dcmread(fp=fp, stop_before_pixels=True, **kwargs), fp, response)
 
 
 def read_dcm_header_pydicom(
-    filepath_or_url: str, download_chunk_size_bytes: int = 10240, stream: bool = True
+    filepath_or_url: Union[str, Path], download_chunk_size_bytes: int = 10240, stream: bool = True, **kwargs: Any
 ) -> pydicom.dataset.FileDataset:
     """
     Get the DICOM headers from either a local file (by file path) or a remote file (by URL).
 
     :param filepath_or_url: A string containing either a path or a URL.  The URL must be prefixed by either
-                    'http://' or 'https://'.
+                    'http://' or 'https://'. Or a filepath as a pathlib Path object.
     :param download_chunk_size_bytes: An integer controlling the download chunk size if the file is remote,
                     defaults to 1024 bytes.
     :param stream: A boolean indicating whether the HTTP request (if filepath_or_url points to a remote file)
@@ -156,8 +161,9 @@ def read_dcm_header_pydicom(
                     *should* treat this as a normal request and download the entire request contents before passing to
                     pydicom dcmread.
                     --------
+    :param kwargs: keywords are forwarded to pydicom.dcmread
     :returns: a pydicom.dataset.FileDataset representing the DICOM indicated by filepath_or_url
     """
     return _read_dcm_header_pydicom(
-        filepath_or_url=filepath_or_url, download_chunk_size_bytes=download_chunk_size_bytes, stream=stream
+        filepath_or_url=filepath_or_url, download_chunk_size_bytes=download_chunk_size_bytes, stream=stream, **kwargs
     )[0]
