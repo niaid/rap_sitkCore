@@ -31,6 +31,9 @@ Then running::
 
 Then the `rap_sitkcore` package can be installed if specified in another projects requirements.txt.
 
+For pydicom to support more encodings additional pylibjpeg packages can be install. These dependencies are specified as
+extra requirements in the setup.py. Specifying the package a "rap_sitkcore[pylibjpeg]" will install the extra packages.
+
 Github Releases
 ^^^^^^^^^^^^^^^
 
