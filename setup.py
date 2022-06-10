@@ -16,8 +16,16 @@ from setuptools import setup
 with open("README.rst", "r") as fp:
     long_description = fp.read()
 
-with open("requirements.txt", "r") as fp:
-    requirements = list(filter(bool, (line.strip() for line in fp)))
+
+def parse_requirements_file(filename):
+    with open(filename, "r", encoding="utf-8") as fp:
+        req = [line.strip() for line in fp.readlines() if line]
+    return req
+
+
+requirements = parse_requirements_file("requirements.txt")
+
+requirements_pylibjpeg = parse_requirements_file("requirements-pylibjpeg.txt")
 
 setup(
     name="rap_sitkcore",
@@ -37,6 +45,7 @@ setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
+    extras_require={"pylibjpeg": requirements_pylibjpeg},
     python_requires=">=3.7",
     install_requires=requirements,
 )
