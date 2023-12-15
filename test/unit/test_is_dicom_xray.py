@@ -95,6 +95,5 @@ def test_is_dicom_xray4(test_file, is_xray, data_paths):
     ("test_file", "is_xray"), [("1.3.6.1.4.1.25403.163683357445804.11044.20131119114627.12.dcm", True)]
 )
 def test_is_dicom_xray5(test_file, is_xray, remote_data_paths):
-
     url = remote_data_paths[test_file]
     assert rap_sitkcore.is_dicom_xray(url, strict=True) == is_xray

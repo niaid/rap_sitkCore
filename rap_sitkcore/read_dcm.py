@@ -35,7 +35,6 @@ def _read_dcm_pydicom(filename: Path) -> sitk.Image:
         # use complement to invert the pixel intensity.
         img = sitk.GetImageFromArray(~arr, isVector=False)
     elif ds.PhotometricInterpretation in ["YBR_FULL_422", "YBR_FULL", "RGB"]:
-
         if ds.PhotometricInterpretation != "RGB":
             from pydicom.pixel_data_handlers.util import convert_color_space
 

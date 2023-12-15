@@ -13,7 +13,6 @@ import SimpleITK as sitk
     ],
 )
 def test_resize_and_scale_uint8_1(file_name, thumbnail_size, md5_hash, data_paths):
-
     filename = data_paths[file_name]
     img = read_dcm(Path(filename))
 
