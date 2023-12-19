@@ -48,7 +48,9 @@ def _read_dcm_pydicom(filename: Path) -> sitk.Image:
         if tag in ds:
             de = ds.data_element(tag)
             key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
-            if de.VR == "DS":
+            if de.value is None:
+                img[key] = ""
+            elif de.VR == "DS":
                 if de.VM > 1:
                     img[key] = convert_float_list_to_mv_ds(de.value)
                 else:
