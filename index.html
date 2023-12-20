@@ -1,20 +1,17 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Welcome to rap_sitkcore’s documentation! &#8212; rap_sitkcore  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
     
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -43,19 +40,19 @@
           <div class="body" role="main">
             
   <section id="welcome-to-rap-sitkcore-s-documentation">
-<h1>Welcome to rap_sitkcore’s documentation!<a class="headerlink" href="#welcome-to-rap-sitkcore-s-documentation" title="Permalink to this heading">¶</a></h1>
+<h1>Welcome to rap_sitkcore’s documentation!<a class="headerlink" href="#welcome-to-rap-sitkcore-s-documentation" title="Link to this heading">¶</a></h1>
 <section id="radiomics-analysis-portal-sitkcore">
-<h2>Radiomics Analysis Portal sitkCore<a class="headerlink" href="#radiomics-analysis-portal-sitkcore" title="Permalink to this heading">¶</a></h2>
+<h2>Radiomics Analysis Portal sitkCore<a class="headerlink" href="#radiomics-analysis-portal-sitkcore" title="Link to this heading">¶</a></h2>
 <p>This sitkCore for the Radiomics Analysis Portal (RAP) contains common utilities for developing algorithms for analysis
 of data from Tuberculosis Portals (TBPortals). The tools are written in Python and provided as an installable Python
 package. The application programming interface (API) is documented in Sphinx: <a class="reference external" href="https://niaid.github.io/rap_sitkCore">https://niaid.github.io/rap_sitkCore</a></p>
 <a class="reference external image-reference" href="https://github.com/niaid/rap_sitkCore/actions/workflows/main.yml"><img alt="Master Build Status" src="https://github.com/niaid/rap_sitkCore/actions/workflows/main.yml/badge.svg?branch=master" /></a>
 <section id="installation">
-<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h3>
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h3>
 <p>The Python module is distributed as a <a class="reference external" href="https://www.python.org/dev/peps/pep-0427/">wheel</a> binary package.</p>
 <p>Dependencies are conventionally specified in <cite>setup.py</cite> and <cite>requirements.txt</cite>.</p>
 <section id="niaid-artifactory">
-<h4>NIAID Artifactory<a class="headerlink" href="#niaid-artifactory" title="Permalink to this heading">¶</a></h4>
+<h4>NIAID Artifactory<a class="headerlink" href="#niaid-artifactory" title="Link to this heading">¶</a></h4>
 <p>The <cite>rap_sitkcore</cite> package can be installed from the internal NIAID Python Package Index (PyPI) hosted on
 artifactory with <a class="reference external" href="https://pip.pypa.io/en/stable/quickstart/">pip</a>. When this package is a dependency for other projects it can be automatically download from the
 artifactory. The internal repository can be automatically used by setting an environment variable:</p>
@@ -71,7 +68,7 @@ artifactory. The internal repository can be automatically used by setting an env
 extra requirements in the setup.py. Specifying the package a “rap_sitkcore[pylibjpeg]” will install the extra packages.</p>
 </section>
 <section id="github-releases">
-<h4>Github Releases<a class="headerlink" href="#github-releases" title="Permalink to this heading">¶</a></h4>
+<h4>Github Releases<a class="headerlink" href="#github-releases" title="Link to this heading">¶</a></h4>
 <p>Wheels from the master branch can be manually download wheel from <a class="reference external" href="https://github.com/niaid/rap_sitkCore/actions?query=branch%3Amaster">Github Actions</a> in the “python-package” artifact.</p>
 <p>Download the latest tagged release from the <a class="reference external" href="https://github.com/niaid/rap_sitkCore/release">Github Releases</a> page.</p>
 <p>The wheel lists the package dependencies which are required for successful installation. This include internal NIAID
@@ -92,7 +89,17 @@ manually downloaded and installed before install <cite>tbpcxr</cite>. The downlo
 <li class="toctree-l2"><a class="reference internal" href="development.html#releases">Releases</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#rap_sitkcore.is_dicom_xray"><code class="docutils literal notranslate"><span class="pre">is_dicom_xray()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#rap_sitkcore.read_dcm"><code class="docutils literal notranslate"><span class="pre">read_dcm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#rap_sitkcore.read_dcm_header_pydicom"><code class="docutils literal notranslate"><span class="pre">read_dcm_header_pydicom()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#rap_sitkcore.resize_and_scale_uint8"><code class="docutils literal notranslate"><span class="pre">resize_and_scale_uint8()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#rap_sitkcore._util.srgb2gray"><code class="docutils literal notranslate"><span class="pre">srgb2gray()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#rap_sitkcore._dicom_util.convert_float_list_to_mv_ds"><code class="docutils literal notranslate"><span class="pre">convert_float_list_to_mv_ds()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#rap_sitkcore._dicom_util.convert_mv_ds_to_float_list"><code class="docutils literal notranslate"><span class="pre">convert_mv_ds_to_float_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#rap_sitkcore._dicom_util.keyword_to_gdcm_tag"><code class="docutils literal notranslate"><span class="pre">keyword_to_gdcm_tag()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -167,8 +174,8 @@ manually downloaded and installed before install <cite>tbpcxr</cite>. The downlo
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2021, Bradley Lowekamp.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+    &#169; Copyright 2021, Bradley Lowekamp.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>
