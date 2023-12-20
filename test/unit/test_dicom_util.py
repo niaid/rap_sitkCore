@@ -20,7 +20,6 @@ def test_convert1():
 
 
 def test_keyword_to_gdcm_tag():
-
     assert keyword_to_gdcm_tag("PatientName") == "0010|0010"
     assert keyword_to_gdcm_tag("SeriesDescription") == "0008|103e"
     assert keyword_to_gdcm_tag("Modality") == "0008|0060"
