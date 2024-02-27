@@ -106,7 +106,7 @@ jobs:
         ls -la dist
     - name: Upload package
       if: github.event_name == 'push'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: python-packages
         path: dist
@@ -117,7 +117,7 @@ jobs:
         make html
     - name: Upload documentation
       if: github.event_name == 'push'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: sphinx-docs
         path: docs/_build/html
