@@ -1,4 +1,5 @@
 """ Functions related to retrieving the dicom headers from a file """
+
 import pydicom
 import requests
 from pathlib import Path
