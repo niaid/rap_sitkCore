@@ -5,3 +5,9 @@ updates:
     schedule:
       interval: "weekly"
       day: "sunday"
+  - package-ecosystem: "pip"
+    directory: "/"
+    versioning-strategy: "increase-if-necessary"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
