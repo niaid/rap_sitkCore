@@ -11,3 +11,7 @@ junit_family="xunit2"
 [tool.black]
 line-length =  120
 exclude = '(docs/conf\.py)|venv*'
+
+[tool.flake8]
+max-line-length = 120
+extend-exclude = "docs/conf.py,venv*"
