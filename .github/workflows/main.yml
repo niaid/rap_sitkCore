@@ -113,7 +113,7 @@ jobs:
 
   github_publish:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: package_docs
+    needs: package
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python 3.11
