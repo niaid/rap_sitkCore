@@ -84,7 +84,7 @@ def _read_dcm_sitk(filename: Path) -> sitk.Image:
     return image_file_reader.Execute()
 
 
-def read_dcm(filename: Path) -> sitk.Image:
+def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
     """
     Read an x-ray DICOM file with GDCMImageIO, reducing it to 2D from 3D as needed.
     If the file cannot be read by the GDCM library, then pydicom is tried.
@@ -122,18 +122,20 @@ def read_dcm(filename: Path) -> sitk.Image:
     img.SetDirection([1.0, 0.0, 0.0, 1.0])
 
     if img.GetNumberOfComponentsPerPixel() == 1:
-        old_keys = img.GetMetaDataKeys()
-        key_to_keep = [keyword_to_gdcm_tag(n) for n in _keyword_to_copy]
-        for k in old_keys:
-            if k not in key_to_keep:
-                del img[k]
+        if not keep_all_tags:
+            old_keys = img.GetMetaDataKeys()
+            key_to_keep = [keyword_to_gdcm_tag(n) for n in _keyword_to_copy]
+            for k in old_keys:
+                if k not in key_to_keep:
+                    del img[k]
         return img
     elif img.GetNumberOfComponentsPerPixel() == 3:
         out = srgb2gray(img)
         # copy tags
-        for tag_name in _keyword_to_copy:
-            key = keyword_to_gdcm_tag(tag_name)
-            if key in img:
-                out[key] = img[key]
+        if not keep_all_tags:
+            for tag_name in _keyword_to_copy:
+                key = keyword_to_gdcm_tag(tag_name)
+                if key in img:
+                    out[key] = img[key]
         return out
     raise RuntimeError(f"Unsupported number of components: {img.GetNumberOfComponentsPerPixel()}")
