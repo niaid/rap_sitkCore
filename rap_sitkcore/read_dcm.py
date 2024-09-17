@@ -128,6 +128,7 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
             for k in old_keys:
                 if k not in key_to_keep:
                     del img[k]
+                    
         return img
     elif img.GetNumberOfComponentsPerPixel() == 3:
         out = srgb2gray(img)
@@ -137,5 +138,6 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
                 key = keyword_to_gdcm_tag(tag_name)
                 if key in img:
                     out[key] = img[key]
+
         return out
     raise RuntimeError(f"Unsupported number of components: {img.GetNumberOfComponentsPerPixel()}")
