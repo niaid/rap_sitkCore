@@ -19,7 +19,7 @@ _keyword_to_copy = [
 ]
 
 
-def _read_dcm_pydicom(filename: Path) -> sitk.Image:
+def _read_dcm_pydicom(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
     """
     Reading implementation with pydicom for DICOM
     """
@@ -37,30 +37,59 @@ def _read_dcm_pydicom(filename: Path) -> sitk.Image:
     elif ds.PhotometricInterpretation in ["YBR_FULL_422", "YBR_FULL", "RGB"]:
         if ds.PhotometricInterpretation != "RGB":
             from pydicom.pixel_data_handlers.util import convert_color_space
-
             arr = convert_color_space(ds.pixel_array, ds.PhotometricInterpretation, "RGB")
 
         img = sitk.GetImageFromArray(arr, isVector=True)
     else:
         raise RuntimeError(f'Unsupported PhotometricInterpretation: "{ds.PhotometricInterpretation}"')
 
-    for tag in _keyword_to_copy:
-        if tag in ds:
-            de = ds.data_element(tag)
-            key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
-            if de.value is None:
-                img[key] = ""
-            elif de.VR == "DS":
-                if de.VM > 1:
-                    img[key] = convert_float_list_to_mv_ds(de.value)
+    if keep_all_tags:
+    # if keep all tags is true, we copy all tags from the pydicom dataset to the SimpleITK image.
+        try:
+            ds = pydicom.dcmread(filename, stop_before_pixels=True)
+
+            for data_element in ds:
+                key_sitk = f"({data_element.tag.group:04x}|{data_element.tag.elem:04x})"
+                name = data_element.name
+                value = data_element.value
+                VR = data_element.VR
+                VM = data_element.VM
+
+                if value in [None, ""]:
+                    img[key_sitk] = ""
+                elif VR == "DS":
+                    if VM > 1:
+                        img[key_sitk] = convert_float_list_to_mv_ds(value)
+                    else:
+                        img[key_sitk] = str(float(value))
+                elif VR == "US":
+                    img[key_sitk] = str(int(value))
                 else:
-                    img[key] = str(float(de.value))
-            elif de.VR in ["CS", "UI"]:
-                img[key] = de.value
-            else:
-                raise ValueError(
-                    f'"{filename}" has data element "{de.name}" non-conforming value representation "{de.VR}".'
-                )
+                    img[key_sitk] = value
+        except TypeError as te:
+            print(f'"{filename}" had an error parsing at "{name}" with value "{value}" and value representation "{VR}". Error: {te}')
+        except ValueError as ve:
+            print(f'"{filename}" had an error parsing at "{name}" with value "{value}" and value representation "{VR}". Error: {ve}')
+            
+
+    else: 
+        for tag in _keyword_to_copy:
+            if tag in ds:
+                de = ds.data_element(tag)
+                key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
+                if de.value is None:
+                    img[key] = ""
+                elif de.VR == "DS":
+                    if de.VM > 1:
+                        img[key] = convert_float_list_to_mv_ds(de.value)
+                    else:
+                        img[key] = str(float(de.value))
+                elif de.VR in ["CS", "UI"]:
+                    img[key] = de.value
+                else:
+                    raise ValueError(
+                        f'"{filename}" has data element "{de.name}" non-conforming value representation "{de.VR}".'
+                    )
 
     return img
 
@@ -101,6 +130,9 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
      * "DistanceSourceToDetector"
      * "ViewPosition"
      * "PatientSex"
+
+    This can be overridden as needed by setting `keep_all_tags` to True. In this case, 
+    all tags are copied.
 
     :param filename: A DICOM filename
     :returns: a 2D SimpleITK Image
