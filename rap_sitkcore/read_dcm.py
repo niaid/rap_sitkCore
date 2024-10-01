@@ -75,14 +75,15 @@ def _read_dcm_pydicom(filename: Path, keep_all_tags: bool = False) -> sitk.Image
     # keep_all_tags is either all tags other than PixelData or the tags specified in 
     # _keyword_to_copy, provided they are present in the dataset
     if keep_all_tags:
-        _keyword_to_copy = [elem.keyword for elem in ds if elem.keyword != "PixelData"]
+        _output_dicom_keywords = [elem.keyword for elem in ds if elem.keyword != "PixelData"]
     else:
-        _keyword_to_copy = [keyword for keyword in _keyword_to_copy if keyword in ds]
-    
+        _output_dicom_keywords = [keyword for keyword in _keyword_to_copy if keyword in ds]
 
     # iterate through all tags and copy the ones specified in _keyword_to_copy
     # to the SimpleITK image
-    for tag in _keyword_to_copy:
+
+
+    for tag in _output_dicom_keywords:
         de = ds.data_element(tag)
         key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
         img[key] = _get_string_representation(de)
@@ -158,10 +159,15 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
                     del img[k]
                     
         return img
+    
     elif img.GetNumberOfComponentsPerPixel() == 3:
         out = srgb2gray(img)
         # copy tags
-        if not keep_all_tags:
+        if keep_all_tags: 
+            old_keys = img.GetMetaDataKeys()
+            for k in old_keys:
+                out[k] = img[k]
+        else:
             for tag_name in _keyword_to_copy:
                 key = keyword_to_gdcm_tag(tag_name)
                 if key in img:
