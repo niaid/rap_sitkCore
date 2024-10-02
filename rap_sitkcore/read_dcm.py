@@ -20,32 +20,32 @@ _keyword_to_copy = [
 
 
 def _get_string_representation(de: pydicom.dataelem.DataElement) -> str:
-        """
-        Get the string representation of the DICOM tag.
-        
-        Parameters:
-        de (pydicom.dataelem.DataElement): The DICOM date element (a particular tag and its metadata).
+    """
+    Get the string representation of the DICOM tag.
+    
+    Parameters:
+    de (pydicom.dataelem.DataElement): The DICOM date element (a particular tag and its metadata).
 
-        Returns:
-        str: The string representation of the DICOM tag.
-        """
-        try:
-            if de.value in [None, ""]:
-                return ""
-            elif de.VR == "DS":
-                if de.VM > 1:
-                    return convert_float_list_to_mv_ds(de.value)
-                else:
-                    return str(float(de.value))
-            elif de.VR == "US":
-                return str(int(de.value))
+    Returns:
+    str: The string representation of the DICOM tag.
+    """
+    try:
+        if de.value in [None, ""]:
+            return ""
+        elif de.VR == "DS":
+            if de.VM > 1:
+                return convert_float_list_to_mv_ds(de.value)
             else:
-                return de.value
-        except (TypeError, ValueError) as e:
-            raise RuntimeError(
-                f'"Error parsing data element "{de.name}" with value "{de.value}" '
-                f'and value representation "{de.VR}". Error: {e}'
-            )
+                return str(float(de.value))
+        elif de.VR == "US":
+            return str(int(de.value))
+        else:
+            return de.value
+    except (TypeError, ValueError) as e:
+        raise RuntimeError(
+            f'"Error parsing data element "{de.name}" with value "{de.value}" '
+            f'and value representation "{de.VR}". Error: {e}'
+        )
 
 
 def _read_dcm_pydicom(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
@@ -72,21 +72,19 @@ def _read_dcm_pydicom(filename: Path, keep_all_tags: bool = False) -> sitk.Image
     else:
         raise RuntimeError(f'Unsupported PhotometricInterpretation: "{ds.PhotometricInterpretation}"')
 
-    # keep_all_tags is either all tags other than PixelData or the tags specified in 
-    # _keyword_to_copy, provided they are present in the dataset
+    # iterate through each tag in original DICOM file and copy all tags to the SimpleITK image
     if keep_all_tags:
-        _output_dicom_keywords = [elem.keyword for elem in ds if elem.keyword != "PixelData"]
-    else:
-        _output_dicom_keywords = [keyword for keyword in _keyword_to_copy if keyword in ds]
-
+        for de in ds:
+            if de.keyword != "PixelData":
+                key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
+                img[key] = _get_string_representation(de)
     # iterate through all tags and copy the ones specified in _keyword_to_copy
     # to the SimpleITK image
-
-
-    for tag in _output_dicom_keywords:
-        de = ds.data_element(tag)
-        key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
-        img[key] = _get_string_representation(de)
+    else:
+        for keyword in _keyword_to_copy:
+            de = ds.data_element(keyword)
+            key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
+            img[key] = _get_string_representation(de)
 
     return img
 
