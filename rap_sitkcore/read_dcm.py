@@ -36,7 +36,11 @@ def _read_dcm_pydicom(filename: Path) -> sitk.Image:
         img = sitk.GetImageFromArray(~arr, isVector=False)
     elif ds.PhotometricInterpretation in ["YBR_FULL_422", "YBR_FULL", "RGB"]:
         if ds.PhotometricInterpretation != "RGB":
-            from pydicom.pixel_data_handlers.util import convert_color_space
+            try:
+                # requires pydicom 3.0
+                from pydicom.pixels import convert_color_space
+            except ImportError:
+                from pydicom.pixel_data_handlers.util import convert_color_space
 
             arr = convert_color_space(ds.pixel_array, ds.PhotometricInterpretation, "RGB")
 
