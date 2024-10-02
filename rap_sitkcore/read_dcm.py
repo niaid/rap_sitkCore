@@ -22,7 +22,7 @@ _keyword_to_copy = [
 def _get_string_representation(de: pydicom.dataelem.DataElement) -> str:
     """
     Get the string representation of the DICOM tag.
-    
+
     Parameters:
     de (pydicom.dataelem.DataElement): The DICOM date element (a particular tag and its metadata).
 
@@ -82,9 +82,10 @@ def _read_dcm_pydicom(filename: Path, keep_all_tags: bool = False) -> sitk.Image
     # to the SimpleITK image
     else:
         for keyword in _keyword_to_copy:
-            de = ds.data_element(keyword)
-            key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
-            img[key] = _get_string_representation(de)
+            if keyword in ds:
+                de = ds.data_element(keyword)
+                key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
+                img[key] = _get_string_representation(de)
 
     return img
 
@@ -126,7 +127,7 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
      * "ViewPosition"
      * "PatientSex"
 
-    This can be overridden as needed by setting `keep_all_tags` to True. In this case, 
+    This can be overridden as needed by setting `keep_all_tags` to True. In this case,
     all tags are copied.
 
     :param filename: A DICOM filename
@@ -140,7 +141,7 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
         img = _read_dcm_sitk(filename)
     except RuntimeError as e:
         try:
-            img = _read_dcm_pydicom(filename)
+            img = _read_dcm_pydicom(filename, keep_all_tags)
         except Exception:
             # Re-raise exception from SimpleITK's GDCM reading
             raise e
@@ -149,27 +150,23 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
     img.SetDirection([1.0, 0.0, 0.0, 1.0])
 
     if img.GetNumberOfComponentsPerPixel() == 1:
-        if not keep_all_tags:
-            old_keys = img.GetMetaDataKeys()
-            key_to_keep = [keyword_to_gdcm_tag(n) for n in _keyword_to_copy]
-            for k in old_keys:
-                if k not in key_to_keep:
-                    del img[k]
-                    
-        return img
-    
+        out = img
     elif img.GetNumberOfComponentsPerPixel() == 3:
+
         out = srgb2gray(img)
-        # copy tags
-        if keep_all_tags: 
-            old_keys = img.GetMetaDataKeys()
+
+        # After converting to grayscale, we need to copy the tags from the original image
+        old_keys = img.GetMetaDataKeys()
+        if keep_all_tags:
             for k in old_keys:
                 out[k] = img[k]
-        else:
-            for tag_name in _keyword_to_copy:
-                key = keyword_to_gdcm_tag(tag_name)
-                if key in img:
-                    out[key] = img[key]
 
-        return out
+    if not keep_all_tags:
+        old_keys = set(out.GetMetaDataKeys())
+        key_to_keep = {keyword_to_gdcm_tag(n) for n in _keyword_to_copy}
+        for k in old_keys - key_to_keep:
+            del out[k]
+
+    return out
+
     raise RuntimeError(f"Unsupported number of components: {img.GetNumberOfComponentsPerPixel()}")
