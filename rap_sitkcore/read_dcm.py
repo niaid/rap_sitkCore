@@ -2,7 +2,7 @@ import SimpleITK as sitk
 import pydicom
 from pathlib import Path
 from rap_sitkcore._util import srgb2gray
-from rap_sitkcore._dicom_util import convert_float_list_to_mv_ds, keyword_to_gdcm_tag
+from rap_sitkcore._dicom_util import convert_float_list_to_mv_ds, convert_int_list_to_mv_ds, keyword_to_gdcm_tag
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -37,10 +37,16 @@ def _get_string_representation(de: pydicom.dataelem.DataElement) -> str:
                 return convert_float_list_to_mv_ds(de.value)
             else:
                 return str(float(de.value))
-        elif de.VR == "US":
-            return str(int(de.value))
+        elif de.VR in ["US", "IS"]:
+
+            if de.VM > 1:
+                return convert_int_list_to_mv_ds(de.value)
+            else:
+                assert str(int(de.value)) == str(de.value), f"{de.value} != {int(de.value)}"
+                return str(int(de.value))
+
         else:
-            return de.value
+            return str(de.value)
     except (TypeError, ValueError) as e:
         raise RuntimeError(
             f'"Error parsing data element "{de.name}" with value "{de.value}" '
@@ -66,6 +72,7 @@ def _read_dcm_pydicom(filename: Path, keep_all_tags: bool = False) -> sitk.Image
     elif ds.PhotometricInterpretation in ["YBR_FULL_422", "YBR_FULL", "RGB"]:
         if ds.PhotometricInterpretation != "RGB":
             from pydicom.pixel_data_handlers.util import convert_color_space
+
             arr = convert_color_space(ds.pixel_array, ds.PhotometricInterpretation, "RGB")
 
         img = sitk.GetImageFromArray(arr, isVector=True)
@@ -77,6 +84,7 @@ def _read_dcm_pydicom(filename: Path, keep_all_tags: bool = False) -> sitk.Image
         for de in ds:
             if de.keyword != "PixelData":
                 key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
+                # print(f"pydicom tag: {key} = \"{de.value}\" type: {type(de.value)} VR: {de.VR} VM: {de.VM}")
                 img[key] = _get_string_representation(de)
     # iterate through all tags and copy the ones specified in _keyword_to_copy
     # to the SimpleITK image
@@ -152,14 +160,15 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
     if img.GetNumberOfComponentsPerPixel() == 1:
         out = img
     elif img.GetNumberOfComponentsPerPixel() == 3:
-
         out = srgb2gray(img)
 
-        # After converting to grayscale, we need to copy the tags from the original image
+        # Copy all tags
         old_keys = img.GetMetaDataKeys()
-        if keep_all_tags:
-            for k in old_keys:
-                out[k] = img[k]
+
+        for k in old_keys:
+            out[k] = img[k]
+    else:
+        raise RuntimeError(f"Unsupported number of components: {img.GetNumberOfComponentsPerPixel()}")
 
     if not keep_all_tags:
         old_keys = set(out.GetMetaDataKeys())
@@ -168,5 +177,3 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
             del out[k]
 
     return out
-
-    raise RuntimeError(f"Unsupported number of components: {img.GetNumberOfComponentsPerPixel()}")

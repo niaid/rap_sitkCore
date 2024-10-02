@@ -66,6 +66,74 @@ def test_read_dcm1(test_file, data_paths):
         assert k in _white_listed_dicom_tags
 
 
+@pytest.mark.parametrize(
+    "test_file,number_of_tags",
+    [
+        ("1.3.6.1.4.1.25403.163683357445804.11044.20131119114627.12.dcm", 109),
+        ("1.3.6.1.4.1.25403.158515237678667.5060.20130807021253.18.dcm", 33),
+        ("1.2.840.114062.2.192.168.196.13.2015.11.4.13.11.45.13871156.dcm", 37),
+        ("2.25.288816364564751018524666516362407260298.dcm", 15),
+        ("2.25.240995260530147929836761273823046959883.dcm", 15),
+        ("2.25.226263219114459199164755074787420926696.dcm", 15),
+        ("2.25.40537326380965754670062689705190363681.dcm", 15),
+        ("2.25.326714092011492114153708980185182745084.dcm", 15),
+        ("2.25.5871713374023139953558641168991505875.dcm", 15),
+        ("n10.dcm", 30),
+        ("n11.dcm", 30),
+        ("n12.dcm", 30),
+        ("1.2.392.200036.9116.2.5.1.37.2429823676.1495586039.603772.DCM", 94),
+        ("2.25.298570032897489859462791131067889681111.dcm", 15),
+        ("non_square_color.dcm", 15),
+        ("non_square_uint16.dcm", 57),
+        ("square_uint8.dcm", 32),
+    ],
+)
+def test_read_dcm_pydicom1(test_file, number_of_tags, data_paths):
+    filename = data_paths[test_file]
+
+    required_tags = [
+        "StudyInstanceUID",
+        "SeriesInstanceUID",
+        "Modality",
+    ]
+
+    img = _read_dcm_pydicom(Path(filename))
+    for tag in required_tags:
+        key = keyword_to_gdcm_tag(tag)
+        assert key in img
+
+    for k in img.GetMetaDataKeys():
+        assert k in _white_listed_dicom_tags
+
+    img = _read_dcm_pydicom(Path(filename), keep_all_tags=True)
+
+    img_keys = set(img.GetMetaDataKeys())
+
+    for tag in required_tags:
+        key = keyword_to_gdcm_tag(tag)
+        assert key in img
+
+    # Check that
+    assert (
+        len(img_keys - set(_white_listed_dicom_tags)) == number_of_tags
+    ), f"Expected: {number_of_tags} but got {len(img_keys - set(_white_listed_dicom_tags))}"
+
+    img = rap_sitkcore.read_dcm(Path(filename), keep_all_tags=True)
+
+    img_keys = set(img.GetMetaDataKeys())
+
+    for tag in required_tags:
+        key = keyword_to_gdcm_tag(tag)
+        assert key in img
+
+    # There are 1-4 different number tags between pydicom and ITK GDCM
+    # assert len (img_keys - set(_white_listed_dicom_tags)) == number_of_tags+2,\
+    #    f"Expected: {number_of_tags} but got {len(img_keys - set(_whihoyte_listed_dicom_tags))}"
+
+    # BUG: Not all these file can be written out
+    # sitk.WriteImage(img, "foo.dcm")
+
+
 def test_read_dcm2():
     """Test with filename does not exit"""
 
