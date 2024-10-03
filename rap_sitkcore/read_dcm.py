@@ -2,7 +2,9 @@ import SimpleITK as sitk
 import pydicom
 from pathlib import Path
 from rap_sitkcore._util import srgb2gray
-from rap_sitkcore._dicom_util import convert_float_list_to_mv_ds, convert_int_list_to_mv_ds, keyword_to_gdcm_tag
+from rap_sitkcore._dicom_util import (convert_float_list_to_mv_ds,
+                                      convert_int_list_to_mv_ds,
+                                      keyword_to_gdcm_tag)
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -27,7 +29,7 @@ def _get_string_representation(de: pydicom.dataelem.DataElement) -> str:
     de (pydicom.dataelem.DataElement): The DICOM date element (a particular tag and its metadata).
 
     Returns:
-    str: The string representation of the DICOM tag.
+        The string representation of the DICOM tag.
     """
     try:
         if de.value in [None, ""]:
@@ -36,7 +38,7 @@ def _get_string_representation(de: pydicom.dataelem.DataElement) -> str:
             if de.VM > 1:
                 return convert_float_list_to_mv_ds(de.value)
             else:
-                return str(float(de.value))
+                return str(de.value)
         elif de.VR in ["US", "IS"]:
 
             if de.VM > 1:
@@ -44,7 +46,6 @@ def _get_string_representation(de: pydicom.dataelem.DataElement) -> str:
             else:
                 assert str(int(de.value)) == str(de.value), f"{de.value} != {int(de.value)}"
                 return str(int(de.value))
-
         else:
             return str(de.value)
     except (TypeError, ValueError) as e:
@@ -84,7 +85,6 @@ def _read_dcm_pydicom(filename: Path, keep_all_tags: bool = False) -> sitk.Image
         for de in ds:
             if de.keyword != "PixelData":
                 key = f"{de.tag.group:04x}|{de.tag.elem:04x}"
-                # print(f"pydicom tag: {key} = \"{de.value}\" type: {type(de.value)} VR: {de.VR} VM: {de.VM}")
                 img[key] = _get_string_representation(de)
     # iterate through all tags and copy the ones specified in _keyword_to_copy
     # to the SimpleITK image
@@ -98,7 +98,7 @@ def _read_dcm_pydicom(filename: Path, keep_all_tags: bool = False) -> sitk.Image
     return img
 
 
-def _read_dcm_sitk(filename: Path) -> sitk.Image:
+def _read_dcm_sitk(filename: Path, load_private_tags=False) -> sitk.Image:
     """
     Reading implementation with pydicom for DICOM
     """
@@ -107,6 +107,8 @@ def _read_dcm_sitk(filename: Path) -> sitk.Image:
     image_file_reader.SetFileName(str(filename))
 
     image_file_reader.ReadImageInformation()
+    if load_private_tags:
+        image_file_reader.LoadPrivateTagsOn()
 
     image_size = list(image_file_reader.GetSize())
     if len(image_size) == 3 and image_size[2] == 1:
@@ -125,7 +127,7 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
 
     The pixel spacing of the output image is 1 and the direction cosine matrix is the identity.
 
-    Only selected DICOM tags are present in the output image. The supported tags include:
+    When keep_all_tags is False, only selected DICOM tags are present in the output image. The supported tags include:
      * "StudyInstanceUID"
      * "SeriesInstanceUID"
      * "Modality"
@@ -139,6 +141,8 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
     all tags are copied.
 
     :param filename: A DICOM filename
+    :param keep_all_tags: If True, all DICOM tags are copied to the output image. This includes private tags. The tags
+    describe the DICOM file, and image buffer transformations can be applied making the tag no longer correct.
     :returns: a 2D SimpleITK Image
     """
 
@@ -146,7 +150,7 @@ def read_dcm(filename: Path, keep_all_tags: bool = False) -> sitk.Image:
         raise FileNotFoundError(f'The file: "{filename}" does not exist.')
 
     try:
-        img = _read_dcm_sitk(filename)
+        img = _read_dcm_sitk(filename, load_private_tags=keep_all_tags)
     except RuntimeError as e:
         try:
             img = _read_dcm_pydicom(filename, keep_all_tags)
