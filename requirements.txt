@@ -1,7 +1,7 @@
 SimpleITK >=2.1.0, <2.5.0
 
 numpy
-pydicom>=2.0, <3.0
+pydicom>=2.0, <4.0
 requests>=2.31.0
 
 # additional packages for pydicom to expand supported files
