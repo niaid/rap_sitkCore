@@ -1,35 +1,24 @@
 Radiomics Analysis Portal sitkCore
 ++++++++++++++++++++++++++++++++++
 
-This sitkCore for the Radiomics Analysis Portal (RAP) contains common utilities for developing algorithms for analysis
-of data from Tuberculosis Portals (TBPortals). The tools are written in Python and provided as an installable Python
-package. The application programming interface (API) is documented in Sphinx: https://niaid.github.io/rap_sitkCore
+The sitkCore package used by the Radiomics Analysis Portal (`RAP`_) contains common utilities for developing image
+analysis algorithms that use data provided by the Tuberculosis Portals Program (`TBPortals`_). The tools are written in
+Python and provided as an installable Python package. The application programming interface (API) is documented in
+Sphinx:
+https://niaid.github.io/rap_sitkCore
 
 .. image:: https://github.com/niaid/rap_sitkCore/actions/workflows/main.yml/badge.svg?branch=master
    :target: https://github.com/niaid/rap_sitkCore/actions/workflows/main.yml
-   :alt: Master Build Status
+   :alt: Main Build Status
 
 Installation
 ------------
 
-The Python module is distributed as a `wheel`_ binary package.
+Dependencies are conventionally specified in `pyproject.toml`, and dependent packages are installed automatically by
+`pip`_. The package can be directly installed from the Github with the following command::
 
-Dependencies are conventionally specified in `setup.py` and `requirements.txt`.
+    python -m pip install git+https://github.com/niaid/rap_sitkCore@v0.5.5
 
-NIAID Artifactory
-^^^^^^^^^^^^^^^^^
-
-The `rap_sitkcore` package can be installed from the internal NIAID Python Package Index (PyPI) hosted on
-artifactory with `pip`_. When this package is a dependency for other projects it can be automatically download from the
-artifactory. The internal repository can be automatically used by setting an environment variable::
-
- PIP_EXTRA_INDEX_URL=https://{USERNAME}:{PASSWORD}@artifactory.niaid.nih.gov/artifactory/api/pypi/bcbb-pypi/simple
-
-Then running::
-
- python -m pip install rap_sitkcore
-
-Then the `rap_sitkcore` package can be installed if specified in another projects requirements.txt.
 
 For pydicom to support more encodings additional pylibjpeg packages can be install. These dependencies are specified as
 extra requirements in the setup.py. Specifying the package a "rap_sitkcore[pylibjpeg]" will install the extra packages.
@@ -37,17 +26,22 @@ extra requirements in the setup.py. Specifying the package a "rap_sitkcore[pylib
 Github Releases
 ^^^^^^^^^^^^^^^
 
-Wheels from the master branch can be manually download wheel from `Github Actions`_ in the "python-package" artifact.
+The Python module is also distributed as a `wheel`_ binary package. Wheels from the master branch can be manually
+downloaded from `Github Actions`_ in the "python-package" artifact.
 
 Download the latest tagged release from the `Github Releases`_ page.
 
-The wheel lists the package dependencies which are required for successful installation. This include internal NIAID
-packages. If the internal "artifactory" repository is not configured then these additional dependencies will need to be
-manually downloaded and installed before install `tbpcxr`. The downloaded wheels can be installed::
 
- python -m pip install rap_sitkcore-0.1-py3-none-any.whl
+Contact
+-------
 
+Please use the `GitHub Issues`_ for support.
 
+Additionally, we can be emailed at: bioinformatics@niaid.nih.gov Please include "rap_sitCore" in the subject line.
+
+.. _RAP: https://rap.tbportals.niaid.nih.gov/
+.. _TBPortals: https://tbportals.niaid.nih.gov/
+.. _SimpleITK toolkit: https://simpleitk.org
 .. _pip: https://pip.pypa.io/en/stable/quickstart/
 .. _Github Actions: https://github.com/niaid/rap_sitkCore/actions?query=branch%3Amaster
 .. _GitHub Issues:  https://github.com/niaid/rap_sitkCore
