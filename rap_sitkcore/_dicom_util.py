@@ -5,6 +5,19 @@ import pydicom
 _vm_delimiter = "\\"
 
 
+def _pad_to_even_length(rep: str) -> str:
+    """
+    Pad the given string to an even length by adding a space at the end.
+
+    :param rep: the string to pad
+    :returns: the padded string
+    """
+
+    if len(rep) % 2:
+        return rep + " "
+    return rep
+
+
 def convert_mv_ds_to_float_list(rep: str, vm: int = 0) -> List[float]:
     """
     Converts the file representation, into data for a multi-value Decimal String (DS).
@@ -24,7 +37,7 @@ def convert_mv_ds_to_float_list(rep: str, vm: int = 0) -> List[float]:
 
 def convert_float_list_to_mv_ds(value: List[float]) -> str:
     """
-    Convert a iterable of float to the DICOM mutli-value representation for decimal string (DS).
+    Convert a iterable of float to the DICOM multi-value representation for decimal string (DS).
 
     This method is intended to convert the pydicom MV DS data elements to the representation that GDCM produced for
     SimpleITK.
@@ -33,13 +46,26 @@ def convert_float_list_to_mv_ds(value: List[float]) -> str:
     :returns: The value encode in for DICOM representation.
     """
 
-    rep = _vm_delimiter.join([str(float(f)) for f in value])
+    # convert to string with 6 decimal places, but maximum 2 trailing zeros
+    rep = _vm_delimiter.join([f"{f:.6f}" for f in value])
 
-    # DICOM spec
-    if len(rep) % 2:
-        rep += " "
+    return _pad_to_even_length(rep)
 
-    return rep
+
+def convert_int_list_to_mv_ds(value: List[float]) -> str:
+    """
+    Convert a iterable of int to the DICOM multi-value representation for (unsigned) integer (US/IS).
+
+    This method is intended to convert the pydicom MV DS data elements to the representation that GDCM produced for
+    SimpleITK.
+
+    :param value: an iterable or list like object of convertable to float values.
+    :returns: The value encode in for DICOM representation.
+    """
+
+    rep = _vm_delimiter.join([str(int(f)) for f in value])
+
+    return _pad_to_even_length(rep)
 
 
 def keyword_to_gdcm_tag(keyword: str) -> str:
