@@ -103,11 +103,9 @@ def overlay_cad4tb(
     if image.GetPixelID() != sitk.sitkUInt8:
         if window is not None:
             winmin, winmax = window
+            image = sitk.Cast(sitk.IntensityWindowing(image, winmin, winmax, 0, 255), sitk.sitkUInt8)
         else:
-            stats = sitk.StatisticsImageFilter()
-            stats.Execute(image)
-            winmin, winmax = stats.GetMinimum(), stats.GetMaximum()
-        image = sitk.Cast(sitk.IntensityWindowing(image, winmin, winmax, 0, 255), sitk.sitkUInt8)
+            image = sitk.Cast(sitk.RescaleIntensity(image, 0, 255), sitk.sitkUInt8)
 
     float_mask = sitk.Cast(mask, sitk.sitkFloat32)
     heatmap *= float_mask
