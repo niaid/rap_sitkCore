@@ -23,6 +23,9 @@ homepage = "https://www.niaid.nih.gov/research/bioinformatics-computational-bios
 source = "https://github.com/niaid/rap_sitkCore"
 documentation = "https://sturdy-winner-164e7c64.pages.github.io"
 
+[project.scripts]
+overlay-cad4tb = "rap_sitkcore.overlay_cad4tb:main"
+
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
 
