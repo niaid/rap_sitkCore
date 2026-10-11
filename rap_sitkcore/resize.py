@@ -2,7 +2,7 @@ import SimpleITK as sitk
 from typing import Iterable
 
 
-def resize_and_scale_uint8(image: sitk.Image, new_size: Iterable[Int]) -> sitk.Image:
+def resize_and_scale_uint8(image: sitk.Image, new_size: Iterable[int]) -> sitk.Image:
     """
     Resize the given image to the given size, with isotropic pixel spacing
     and scale the intensities to [0,255].
