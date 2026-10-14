@@ -5,9 +5,26 @@ updates:
     schedule:
       interval: "weekly"
       day: "sunday"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
   - package-ecosystem: "pip"
     directory: "/"
     versioning-strategy: "increase-if-necessary"
     schedule:
       interval: "weekly"
       day: "sunday"
+    groups:
+      pip:
+        patterns:
+          - "*"
+  - package-ecosystem: "pre-commit"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    groups:
+      pre-commit:
+        patterns:
+          - "*"
